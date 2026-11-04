@@ -31,3 +31,4 @@ Don't duplicate the chronological log here — only the distilled rule.
   `Arch_Reviewer.md`, `arch-graphics-review` skill, `work-discipline` skill
   all live there. Worth checking before reinventing a pattern HR has
   already built once.
+- (2026-11-04) On re-reviews print the raw (unfloored) score beside the floored one — when the stamp rows alone cost 76 points every sheet shows 0 and progress is invisible.

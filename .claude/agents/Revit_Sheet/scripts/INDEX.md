@@ -9,6 +9,7 @@ description: Index of scripts written by/for the Revit_Sheet agent — what each
 |---|---|---|
 | pdf_render.py | Render PDF pages to PNG, crop by page fractions (`--crop`), dump line widths/fonts (PyMuPDF) | Every review: first look + zoomed screenshots |
 | write_md_rf_batch.py | One-off generator of the 7 per-sheet .md files for the 2026-11-04 Aerovokzal RF review | Template for a re-review of the same set (edit rows inline) |
+| write_md_rf_r2.py | Round-2 generator (2026-11-04): writes `reports/r2/<stem>/<stem>.md` with a round-1 → status table + defect table, computes raw/floored score | Round 3 of the same set (edit the row data inline) |
 
 ## Rule
 Before writing a new script: read this table and the `revit-sheet-audit`
