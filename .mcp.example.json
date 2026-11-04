@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "revit-2025": {
+      "command": "node",
+      "args": [
+        "C:\\BURAYA\\KLASOR\\YOLU\\RevitMCPServer\\src\\McpServer\\dist\\index.js"
+      ],
+      "env": {
+        "REVIT_MCP_VERSION": "2025",
+        "REVIT_MCP_PORT": "7891"
+      }
+    }
+  }
+}

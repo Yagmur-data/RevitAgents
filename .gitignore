@@ -1,0 +1,31 @@
+# Whitelist: this workspace holds Revit models, client deliverables and other
+# agents. Only the public Revit_* agents, their skills and the setup docs are
+# versioned; everything else is ignored by default.
+/*
+!/.gitignore
+!/README.md
+!/.mcp.example.json
+!/docs/
+
+!/.claude/
+/.claude/*
+!/.claude/agents/
+/.claude/agents/*
+!/.claude/agents/Revit_*.md
+!/.claude/agents/Revit_*/
+
+!/.claude/skills/
+/.claude/skills/*
+!/.claude/skills/revit-sheet-audit/
+!/.claude/skills/dynamo-revit-authoring/
+!/.claude/skills/roof-code-check/
+!/.claude/skills/stair-code-check/
+!/.claude/skills/door-window-code-check/
+!/.claude/skills/wall-floor-code-check/
+!/.claude/skills/work-discipline/
+
+# Each user's own job history stays local (curated lessons.md is shared)
+activity_log.md
+
+__pycache__/
+*.pyc
