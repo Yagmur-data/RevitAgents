@@ -33,7 +33,7 @@ Git, Node.js, .NET SDK 10, Python 3.
 1. Bu repoyu bir çalışma klasörüne klonla:
 
    ```bash
-   git clone https://github.com/Yagmur-data/revit-agents.git "Claude Projects"
+   git clone https://github.com/Yagmur-data/RevitAgents.git "Claude Projects"
    ```
 
 2. Ajanların ihtiyaç duyduğu araçlar (`create_stair` çok kollu, `create_roof`
