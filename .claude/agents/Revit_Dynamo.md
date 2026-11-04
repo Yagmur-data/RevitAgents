@@ -2,9 +2,12 @@
 name: Revit_Dynamo
 description: >
   Use this agent when the user wants something done in the open Revit
-  document through Dynamo — "Dynamo ile yap", "dynamo grafiği yaz/düzelt",
-  "toplu parametre doldur", "Dynamo script'i ile eleman üret", "bu .dyn'i
-  değiştir", "Dynamo çalıştı mı kontrol et". It reads the live Revit model
+  document through Dynamo — "do it with Dynamo", "write/fix a Dynamo
+  graph", "fill parameters in bulk", "generate elements with a Dynamo
+  script", "change this .dyn", "check whether the Dynamo run worked"
+  (Turkish: "Dynamo ile yap", "dynamo grafiği yaz/düzelt", "toplu parametre
+  doldur", "Dynamo script'i ile eleman üret", "bu .dyn'i değiştir", "Dynamo
+  çalıştı mı kontrol et"). It reads the live Revit model
   (read-only revit_* tools), writes or edits Dynamo 3.3 .dyn graphs and
   CPython3 Python nodes into `ForDynamo/<job>/`, validates them, hands the
   user exact run steps (it CANNOT run Dynamo itself — there is no live Dynamo
@@ -65,6 +68,9 @@ graph for it.
 1. **Read memory before, log only what's new after.** Read `lessons.md` in
    full and recent `activity_log.md` entries first. `New this task` is for
    genuinely new findings; write "none" rather than padding.
+1a. **Save in English.** Write everything you save — `Memory/lessons.md`,
+   `activity_log.md`, scripts, `scripts/INDEX.md` and any skill notes — in
+   English, whatever language the user speaks.
 2. **Connect first.** `revit_ping`, then state the open document's title (and
    that it is unsaved, if `pathName` is empty) before planning anything. If
    Revit isn't reachable, say so and stop; don't design blind.

@@ -1,103 +1,102 @@
 ---
 name: Al's wall / floor / ceiling drawing conventions
-description: Al's own two texts (sent 2026-10-30) on line weights, material hatches, levels, build-up notation and how floor slab, floor finish and ceiling are shown in sections (1:5–1:100), the floor finish plan and the reflected ceiling plan (RCP). Used by wall-floor-code-check §3d (build-up, FFL/FCL) and, for the graphics, by Revit_Drafter / Revit_Sheet. Footnote markers of the source were removed; wording otherwise as sent.
+description: Al's own two texts (sent 2026-10-30) on line weights, material hatches, levels, build-up notation and how floor slab, floor finish and ceiling are shown in sections (1:5–1:100), the floor finish plan and the reflected ceiling plan (RCP). Used by wall-floor-code-check §3d (build-up, FFL/FCL) and, for the graphics, by Revit_Drafter / Revit_Sheet. Footnote markers of the source were removed; translated into English from Al's Turkish original, content otherwise as sent.
 ---
 
-# Duvar, döşeme, kaplama ve tavan gösterimi (Al, 2026-10-30)
+# Wall, floor, finish and ceiling representation (Al, 2026-10-30)
 
-İki metin; ikincisi §5–§9. Al kaynak belge adı vermedi (köşeli parantezli dipnot numaraları çıkarıldı).
+Two texts; the second is §5–§9. Al gave no source document names (the bracketed footnote numbers were removed).
 
-Mimari ve iç mimari projelerde döşeme (floor slab), kaplama (floor finish) ve
-tavan (ceiling) gösterimleri iki temel görünüş düzleminde ifade edilir:
-kesit çizimleri (1:5, 1:10, 1:20 detay kesitleri ile 1:50, 1:100 genel
-kesitler) ve plan çizimleri (Zemin Kaplama Planı ile Yansıtılmış Tavan Planı
-/ RCP).
+In architectural and interior-design projects, the floor slab, the floor
+finish and the ceiling are shown in two basic view planes: section drawings
+(1:5, 1:10, 1:20 detail sections and 1:50, 1:100 general sections) and plan
+drawings (the Floor Finish Plan and the Reflected Ceiling Plan / RCP).
 
-## 1. Kesit ve detay çizimlerinde katman sıralaması (yukarıdan aşağıya)
+## 1. Layer order in section and detail drawings (top to bottom)
 
-| Katman | Gösterim | Kalınlık / not |
+| Layer | Representation | Thickness / note |
 |---|---|---|
-| A. Zemin kaplaması (floor finish) | İnce/orta çizgi 0.25–0.35 mm. Tarama: seramik/karo grid; ahşap parke çift çizgi/kesit taraması; halı/PVC ince nokta veya boşluk | Tür + kalınlık yazılır (örn. 15 mm lamine parke, 10 mm porselen seramik) |
-| B. Yapıştırıcı / harç | İnce nokta/lekeleme taraması | 3–5 mm |
-| C. Tesviye şapı (screed) | Çok ince nokta taraması | genellikle 30–50 mm |
-| D. Isı / ses / su yalıtımı (insulation, DPC) | Isı/ses: zikzak veya dalgalı çizgi; nem/su (DPC/membran): koyu kalın bant veya özel kesikli çizgi | — |
-| E. Taşıyıcı döşeme plağı (structural slab) | Kesitte kesildiği için en kalın çizgi 0.50–0.70 mm veya donatılı beton taraması (nokta + küçük üçgen) | Tür + kalınlık yazılır (örn. 150 mm betonarme plak, kaset döşeme) |
-| F. Tavan | Doğrudan sıvalı tavan: plak alt yüzüne ince sıva. Asma tavan: plenum boşluğu, askı çubukları, ana/ara profiller, kaplama plakları (alçıpan, taşyünü karo, lineer metal) ölçekli | — |
+| A. Floor finish | Thin/medium line 0.25–0.35 mm. Hatch: ceramic/tile grid; timber parquet double line/section hatch; carpet/PVC fine dots or blank | Type + thickness are written (e.g. 15 mm laminate parquet, 10 mm porcelain ceramic) |
+| B. Adhesive / mortar | Fine dot/stipple hatch | 3–5 mm |
+| C. Levelling screed | Very fine dot hatch | typically 30–50 mm |
+| D. Thermal / acoustic / water insulation (insulation, DPC) | Thermal/acoustic: zigzag or wavy line; damp/water (DPC/membrane): dark thick band or a special dashed line | — |
+| E. Structural slab | Cut in section, so the heaviest line 0.50–0.70 mm, or the reinforced-concrete hatch (dots + small triangles) | Type + thickness are written (e.g. 150 mm RC slab, waffle slab) |
+| F. Ceiling | Directly plastered ceiling: thin plaster on the slab soffit. Suspended ceiling: plenum void, hanger rods, main/cross profiles, ceiling boards (plasterboard, stone-wool tile, linear metal) to scale | — |
 
-## 2. Zemin kaplama planı
+## 2. Floor finish plan
 
-1. Plan, bitmiş zemine yukarıdan bakış (1.00 m kotundan kesip aşağı bakış).
-2. Duvarlar ve taşıyıcılar kesitte → kalın çizgi.
-3. Seramik/mermer/karo: başlangıç derz noktası (starter tile) belirtilir, derz eksenleri ince çizgi.
-4. Malzeme geçişleri: eşik profilleri, genleşme/dilatasyon derzleri gösterilir.
-5. Bitmiş zemin kotu `FFL +2.750` veya daire içinde nokta işaretiyle oda ortasında.
-6. Mahal etiketi: ad, alan (m²), zemin kaplama kodu (örn. K01 epoksi, K02 lamine parke), pafta lejantına referanslı.
+1. The plan is a view from above onto the finished floor (cut at the 1.00 m level, looking down).
+2. Walls and structural members are cut → heavy line.
+3. Ceramic/marble/tile: the joint starting point (starter tile) is indicated; joint axes in thin line.
+4. Material transitions: threshold profiles and expansion/movement joints are shown.
+5. Finished floor level `FFL +2.750`, or with a dot-in-circle mark, in the middle of the room.
+6. Room tag: name, area (m²), floor finish code (e.g. K01 epoxy, K02 laminate parquet), referenced to the sheet legend.
 
-## 3. Yansıtılmış tavan planı (RCP)
+## 3. Reflected ceiling plan (RCP)
 
-Yere konmuş aynadan tavana bakış — oryantasyon taban planıyla birebir çakışır.
+A view of the ceiling as seen in a mirror laid on the floor — the orientation coincides exactly with the floor plan.
 
-1. Modüler asma tavan (60×60, 60×120): profil aksları ince çizgi; alçıpan tavan: tavan sınırları, kaset/ışıklık detayları.
-2. Tavan kotu bitmiş zemine göre net: `FCL = +2.60 m` veya tavan yüksekliği 260 cm.
-3. Entegrasyon: aydınlatma (gömme/sıva üstü, LED hat, spot); HVAC üfleme/emme anemostad ve menfezler; sprinkler, duman dedektörü, acil anons hoparlörü; müdahale kapakları kesikli/ince çizgiyle.
+1. Modular suspended ceiling (60×60, 60×120): profile axes in thin line; plasterboard ceiling: ceiling boundaries, coffer/light-cove details.
+2. Ceiling level, net from the finished floor: `FCL = +2.60 m` or ceiling height 260 cm.
+3. Integration: lighting (recessed/surface-mounted, LED line, spot); HVAC supply and return diffusers and grilles; sprinklers, smoke detectors, emergency PA speakers; access panels in dashed/thin line.
 
-## 4. Ölçülendirme ve notasyon
+## 4. Dimensioning and notation
 
-- Lider çizgileri: detay kesitlerinde katmanlar dikey hizada rehber oklarla sırayla listelenir.
-- Planda bitmiş kot `FFL +0.000`; kesitte kaba ve bitmiş kotlar dikey hizalı oklarla (örn. kaba döşeme `+2.690`, bitmiş döşeme `+2.750`).
+- Leader lines: in detail sections the layers are listed in order with leader arrows, aligned vertically.
+- On plan, finished level `FFL +0.000`; in section, structural and finished levels with vertically aligned arrows (e.g. structural slab `+2.690`, finished floor `+2.750`).
 
-## 5. Çizgi kalınlıkları ve tipleri (ikinci metin)
+## 5. Line weights and types (second text)
 
-- Kesit çizgileri (kalın düz): kesilen taşıyıcı duvarlar, betonarme perde/kolon, döşeme plakları — ölçeğe göre 0.50–1.00 mm.
-- Görünüş çizgileri (orta düz): kesite girmeyip arkada görünen duvar sınırları, parapetler, döşeme kenarları — 0.35–0.50 mm.
-- Aks çizgileri noktalı kesikli 0.25–0.35 mm; ölçü ve bağlama çizgileri ince düz 0.25 mm.
-- Gizli / üst kot elemanları (kesikli): döşeme altındaki kirişler, lento sınırları, üst kottaki döşeme boşlukları, asma tavan hatları.
+- Section lines (heavy continuous): cut load-bearing walls, RC shear walls/columns, floor slabs — 0.50–1.00 mm depending on scale.
+- Elevation lines (medium continuous): wall outlines, parapets, slab edges that are not cut but seen beyond — 0.35–0.50 mm.
+- Grid lines dash-dot 0.25–0.35 mm; dimension and extension lines thin continuous 0.25 mm.
+- Hidden / upper-level elements (dashed): beams under the slab, lintel outlines, slab openings at the level above, suspended ceiling lines.
 
-## 6. Malzeme taramaları
+## 6. Material hatches
 
-- Tuğla/kagir: 45° eğik tek veya çift paralel çizgi. Beton/betonarme: ince nokta + küçük üçgen; donatılı betonda ilave çapraz hat veya koyu dolgu. Isı yalıtımı (taş yünü, EPS/XPS): dalgalı/zikzak. Sıva/harç: çok ince noktalı lekeleme.
-- Döşeme kesitinde DPC koyu bant/membran çizgisi, şap ince nokta, ısı/ses yalıtımı zikzak, betonarme plak donatılı beton sembolü — katman katman.
-- Planda kaplamalar ölçekli: seramik grid, ahşap parke balıksırtı/sepet, doğal taş.
+- Brick/masonry: single or double parallel lines at 45°. Concrete/RC: fine dots + small triangles; in reinforced concrete an additional diagonal line or a dark fill. Thermal insulation (stone wool, EPS/XPS): wavy/zigzag. Plaster/mortar: very fine stipple.
+- In a floor section: DPC as a dark band/membrane line, screed fine dots, thermal/acoustic insulation zigzag, RC slab with the reinforced-concrete symbol — layer by layer.
+- On plan, finishes to scale: ceramic grid, timber parquet herringbone/basket-weave, natural stone.
 
-## 7. Kotlandırma ve ölçülendirme
+## 7. Levels and dimensioning
 
-- Planda: FFL kısaltması veya ±0.000'a göre `x` işaretli nokta (örn. `FFL 12.335`, `+2.750`).
-- Kesit/görünüşte: çizim dışına uzatılan projeksiyon çizgisi üzerinde dolu/boş ok (kaba `+2.690`, bitmiş `+2.750`).
-- Modüler ölçülendirme: duvar kalınlıkları, kapı-pencere açıklıkları, döşeme kalınlıkları 100 / 300 mm modüllerine uygun, içten dışa zincir ölçü.
+- On plan: the abbreviation FFL, or a point marked `x` relative to ±0.000 (e.g. `FFL 12.335`, `+2.750`).
+- In section/elevation: a filled/open arrow on a projection line extended outside the drawing (structural `+2.690`, finished `+2.750`).
+- Modular dimensioning: wall thicknesses, door and window openings, slab thicknesses on 100 / 300 mm modules; chain dimensions from inside to outside.
 
-## 8. Kesit detayı katman notasyonu (1:10, 1:20, 1:50)
+## 8. Layer notation in section details (1:10, 1:20, 1:50)
 
-- Hizalı rehber çizgileriyle uygulama sırasına göre, dıştan içe veya üstten alta.
-- Zemin: kaplama (seramik/parke) → yapıştırıcı → tesviye şapı → su/ısı yalıtım membranı → betonarme plak → tavan sıvası / asma tavan.
-- Duvar: dış cephe kaplaması / dış sıva → ısı yalıtımı → duvar gövdesi (tuğla/gazbeton/briket) → iç sıva → iç yüzey boya/kaplama.
+- With aligned leader lines, in construction order, outside to inside or top to bottom.
+- Floor: finish (ceramic/parquet) → adhesive → levelling screed → water/thermal insulation membrane → RC slab → ceiling plaster / suspended ceiling.
+- Wall: external cladding / external render → thermal insulation → wall body (brick/aerated concrete/block) → internal plaster → internal paint/finish.
 
-## 9. Pafta düzeni
+## 9. Sheet layout
 
-- Referans akslar baloncuk içinde harf ve rakamla.
-- Ölçek, kuzey oku, detay işaretçileri ve kesit yönü sembolleri CSI UDS / NCS kurallarına göre pafta kancası ve başlık alanına (HR notu: yalnız US NCS ailesi seçilen işlerde; TS EN ISO 128 varsayılanında ISO 5457/7200/7519 — `revit-sheet-audit/references/wall-floor-ceiling-graphics.md`).
+- Reference grids in bubbles, with letters and numbers.
+- Scale, north arrow, detail markers and section-direction symbols on the sheet margin strip and in the title area per CSI UDS / NCS rules (HR note: only on jobs where the US NCS family is chosen; under the TS EN ISO 128 default, ISO 5457/7200/7519 — `revit-sheet-audit/references/wall-floor-ceiling-graphics.md`).
 
-## 10. Üçüncü metin (Al, 2026-10-30) — döşeme-kaplama, alçıpan bölme duvar ve asma tavan
+## 10. Third text (Al, 2026-10-30) — floor finish, drywall partitions and suspended ceilings
 
-Al'in andığı çerçeve: CSI UDS / NCS, ISO 128 / ISO 7519, BS EN 13964 (asma tavanlar), IBC Chapter 25 / ASTM C840 (alçıpan sistemleri). Köşeli parantezli kaynak numaraları çıkarıldı; kaynak listesi verilmedi.
+The framework Al cited: CSI UDS / NCS, ISO 128 / ISO 7519, BS EN 13964 (suspended ceilings), IBC Chapter 25 / ASTM C840 (gypsum board systems). Bracketed source numbers were removed; no source list was given.
 
-**Döşeme / kaplama — çizgi hiyerarşisi**
-- Kesit çizgisi 0.50–0.70 mm: kesilen betonarme döşeme plağı ve kaba yapı.
-- Orta çizgi 0.25–0.35 mm: tesviye şapı, yalıtım membranları, süpürgelik hatları, arkada görünen döşeme sınırları.
-- İnce çizgi 0.13–0.18 mm: seramik, mermer, ahşap kaplama derzleri (plan).
+**Floor / finish — line hierarchy**
+- Section line 0.50–0.70 mm: the cut RC floor slab and the structural shell.
+- Medium line 0.25–0.35 mm: levelling screed, insulation membranes, skirting lines, slab edges seen beyond.
+- Thin line 0.13–0.18 mm: ceramic, marble, timber finish joints (plan).
 
-**Taramalar**: taşıyıcı döşeme donatılı beton sembolü (ince nokta + küçük üçgen) veya koyu dolu dolgu; şap ince noktalı lekeleme; ısı/ses yalıtımı dalgalı/zikzak; kaplama: karo/seramik ölçekli grid, ahşap parke balıksırtı / sepet / düz plank, doğal taş/mermer plaka boyutunda derz ağı.
+**Hatches**: structural slab with the reinforced-concrete symbol (fine dots + small triangles) or a dark solid fill; screed fine stipple; thermal/acoustic insulation wavy/zigzag; finish: ceramic/tile grid to scale, timber parquet herringbone / basket-weave / straight plank, natural stone/marble joint grid at panel size.
 
-**Kot ve imalat notasyonu**: FFL (bitmiş zemin, `FFL +3.500`, `FFL 12.335`, oda ortasında veya kot noktalarında); **SSL** (Structural Slab Level — taşıyıcı kaba betonarme üst kotu); başlangıç karosu (serim yönü ve derz aksı); katman listesi dikey rehber çizgide dıştan içe / üstten alta — örnek: 10 mm porselen seramik → yapıştırıcı → 40 mm tesviye şapı → su yalıtımı → 150 mm betonarme döşeme.
+**Level and construction notation**: FFL (finished floor, `FFL +3.500`, `FFL 12.335`, in the middle of the room or at level points); **SSL** (Structural Slab Level — top of the structural rough RC slab); starter tile (laying direction and joint axis); layer list on a vertical leader, outside to inside / top to bottom — example: 10 mm porcelain ceramic → adhesive → 40 mm levelling screed → waterproofing → 150 mm RC slab.
 
-**Alçıpan bölme duvar**
-- Plan: duvar sınırları çift çizgi; içinde C ve U galvaniz profillerin (C-stud, U-runner) aksları ve etiketleri.
-- Kesit/detay: alçıpan levha katmanları ölçekli dikey çizgilerle (12.5 mm standart, 15 mm veya yangına dayanıklı Type X); profil içindeki taşyünü/camyünü dolgusu dalgalı hatla.
-- Duvar tipi kodlaması: planda lejant referanslı (örn. `W1` tek kat alçıpanlı duvar, `W2` çift kat Type X akustik duvar).
+**Drywall partition**
+- Plan: wall edges as a double line; inside, the axes and labels of the galvanised C and U profiles (C-stud, U-runner).
+- Section/detail: plasterboard layers as vertical lines to scale (12.5 mm standard, 15 mm or fire-resistant Type X); stone-wool/glass-wool infill inside the profiles as a wavy line.
+- Wall type coding: on plan, referenced to a legend (e.g. `W1` single-layer plasterboard wall, `W2` double-layer Type X acoustic wall).
 
-**Asma tavan (EN 13964 / RCP)**
-- RCP: yere konan aynadan yukarı bakış; tavan paftası taban planıyla birebir çakışır.
-- FCL bitmiş zemine göre (`FCL = +2.60 m`).
-- Monolitik alçıpan tavan: derzsiz tek yüzey; karkas (T-24, C-kanal, askı çubukları) detay kesitinde ölçekli. Modüler tavan (60×60 / 60×120): görünür veya gizli taşıyıcılı T-grid planda ince hatla.
-- Entegrasyon: aydınlatma (spot, LED bant, armatür), HVAC anemostad/menfez, sprinkler, duman dedektörü, müdahale kapakları kesikli/ince çizgiyle.
+**Suspended ceiling (EN 13964 / RCP)**
+- RCP: looking up as seen in a mirror laid on the floor; the ceiling sheet coincides exactly with the floor plan.
+- FCL relative to the finished floor (`FCL = +2.60 m`).
+- Monolithic plasterboard ceiling: a single jointless surface; framing (T-24, C-channel, hanger rods) to scale in the detail section. Modular ceiling (60×60 / 60×120): T-grid with exposed or concealed carriers, in thin line on plan.
+- Integration: lighting (spot, LED strip, luminaire), HVAC diffusers/grilles, sprinklers, smoke detectors, access panels in dashed/thin line.
 
-**Pafta düzeni (CSI UDS / NCS)**: `A-101` zemin kat planı, `A-102` RCP, `A-103` zemin kaplama planı, `A-501` sistem ve detay kesitleri; tüm taramalar, çizgi tipleri, duvar/döşeme tipleri pafta kenarındaki lejantta (keynotes & symbols) tanımlı.
+**Sheet layout (CSI UDS / NCS)**: `A-101` ground floor plan, `A-102` RCP, `A-103` floor finish plan, `A-501` system and detail sections; all hatches, line types and wall/floor types defined in the legend at the sheet edge (keynotes & symbols).

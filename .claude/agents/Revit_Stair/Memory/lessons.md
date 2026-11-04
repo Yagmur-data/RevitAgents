@@ -42,7 +42,7 @@ Don't duplicate the chronological log here — only the distilled rule.
   (Project1: hand (0,1) → hinge on +y; confirmed on L2 plan crops for 1679418 / 1679589 / 1679592). Fully open leaf
   = hinge + facing × leaf width. (2026-10-30.)
 - Compare US limits in exact millimetres (1 in = 25.4 mm): max riser 177.8, min tread 279.4. Size the stair from
-  the skill's limits, not the Revit type's (default type says 178 / 275, which fails the US genel/kaçış rules).
+  the skill's limits, not the Revit type's (default type says 178 / 275, which fails the US general/egress rules).
   (HR, 2026-10-21, when stair-code-check was filled.)
 - Default basis is US (IBC/IRC + NFPA 101) for every job without a project document, Turkish projects included;
   don't ask the basis again unless the user or project names UK/TR/another code. (Al, 2026-10-21)
@@ -69,5 +69,5 @@ Don't duplicate the chronological log here — only the distilled rule.
   on grids) without creating a section. (Аэровокзал external stairs, 2026-10-30.)
 - Every stair job plans and checks its landings — bottom, top and intermediate — with the skill's §3c LD block; the
   report has one LD line per landing. `stair_run.py --floor-landing-depth` gives the top/bottom zones that must be free
-  of walls and door swings. (Al, 2026-10-30: "ara sahanlık meselesi önemli".)
+  of walls and door swings. (Al, 2026-10-30: "the intermediate-landing issue is important".)
 - Multi-flight stairs: build ONE Stairs element with `create_stair` `runs` (+ `treadDepth`, `runWidth`, `desiredRisers`, `stairsTypeName`) — real StairsLanding, no intermediate level or Floor stand-in. Automatic landing for straight/collinear runs; pass `landingProfiles` for a U-stair in a walled cell. If the session's `revit_create_stair` schema lacks `runs` (MCP server not restarted since 2026-10-30), the add-in accepts it on /mcp directly; `revit_batch` refuses it. (Аэровокзал, 2026-10-30.)

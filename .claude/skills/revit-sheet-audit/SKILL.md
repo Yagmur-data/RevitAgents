@@ -1,12 +1,14 @@
 ---
 name: revit-sheet-audit
-description: The authoritative Revit paftalama (sheet) graphics-QA rubric — concrete values from ISO 128/TS EN ISO 128 (Turkish default), BS EN ISO 128, and US NCS/AIA for line weights & types; ISO 5457/7200 for sheet sizes & title blocks; ISO 129 for dimensioning; ISO 3098 for lettering; ISO 7519 plus north-arrow/scale-bar/revision-cloud convention for drawing arrangement & symbols; ISO 19650/BS 1192 or US NCS for drawing numbering; the RF family (ГОСТ / СПДС: ГОСТ Р 21.101 stamp, axes, elevation marks, ГОСТ 2.301/2.303/2.304) replacing those on Russian jobs (2026-10-30); plus Al's office module for walls, drywall partitions, floors, finishes and ceilings on sections, details, floor finish plans and reflected ceiling plans (WF1-WF10, 2026-10-30). Used by Revit_Sheet (scoring/reporting) and Revit_Drafter (drafting to the yardstick before export) as the real rubric, replacing their inline baseline checklist.
+description: The authoritative Revit sheet-layout (paftalama) graphics-QA rubric — concrete values from ISO 128/TS EN ISO 128 (Turkish default), BS EN ISO 128, and US NCS/AIA for line weights & types; ISO 5457/7200 for sheet sizes & title blocks; ISO 129 for dimensioning; ISO 3098 for lettering; ISO 7519 plus north-arrow/scale-bar/revision-cloud convention for drawing arrangement & symbols; ISO 19650/BS 1192 or US NCS for drawing numbering; the RF family (ГОСТ / СПДС: ГОСТ Р 21.101 stamp, axes, elevation marks, ГОСТ 2.301/2.303/2.304) replacing those on Russian jobs (2026-10-30); plus Al's office module for walls, drywall partitions, floors, finishes and ceilings on sections, details, floor finish plans and reflected ceiling plans (WF1-WF10, 2026-10-30). Used by Revit_Sheet (scoring/reporting) and Revit_Drafter (drafting to the yardstick before export) as the real rubric, replacing their inline baseline checklist.
 ---
 
 # revit-sheet-audit
 
-A Revit sheet audit checks the **graphics and presentation** of a pafta
-against concrete, named drafting standards — not a vague "looks fine"
+All notes added to this skill must be written in English.
+
+A Revit sheet audit checks the **graphics and presentation** of a sheet
+(pafta) against concrete, named drafting standards — not a vague "looks fine"
 judgement, and not a country-independent set of non-binding examples (that
 approach is `arch-graphics-review`'s; this skill deliberately keeps the
 real standard families separate instead, because the user wants the actual
@@ -17,7 +19,7 @@ figures enforced).
 Ask whether a project-specific standard applies, same intake pattern as
 `arch-graphics-review`. If none is stated:
 
-- **Default: TS EN ISO 128** (Türk Standardı, TSE's identical adoption of
+- **Default: TS EN ISO 128** (Turkish Standard, TSE's identical adoption of
   ISO 128 — mandatory on official Turkish architectural/engineering
   projects). Use this unless told otherwise.
 - **BS EN ISO 128** — same line-weight/type values as TS EN ISO 128/ISO

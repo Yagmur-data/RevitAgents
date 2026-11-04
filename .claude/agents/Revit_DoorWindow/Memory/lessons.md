@@ -44,7 +44,7 @@ Project1 (Аэровокзал Северное) and the workspace's revit-mcp-t
   fire-resistance degree and С-class not given — ask before RF-F2 / RF-H1. Read
   `Russia_Aerovokzal/standards_ru.md` first. (HR, 2026-10-21)
 - Revit `Width` on a door type is not the clear width «в свету»: estimate clear = Width − Thickness − 0.01 and
-  report "sınırda" when only the nominal width passes (skill §3b note 1). A 900 door (~0.85 clear) does not
+  report "borderline" when only the nominal width passes (skill §3b note 1). A 900 door (~0.85 clear) does not
   prove the 0.9 m accessible width.
 - Window facing has no tool: read it from the bbox — the exterior side reaches only 0.1735 m past the centreline on
   the 287 mm panel wall, the interior side ~0.62 m. Same values on every window = consistent facing. (from/to room

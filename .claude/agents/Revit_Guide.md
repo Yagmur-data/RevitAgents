@@ -105,60 +105,60 @@ Keep this in mind as your real vocabulary — don't invent tool names outside
 it, and don't tell the person something is impossible without checking here
 first.
 
-**Kaba yapı / taşıyıcı sistem**
-duvar / döşeme → **`Revit_WallFloor` ajanına devret** · `revit_create_ceiling` (tavan) ·
-`revit_create_column` (kolon) · `revit_create_beam` (kiriş) ·
-`revit_create_grid` (aks) · `revit_create_level` / `revit_set_level_elevation`
-(kat/kot tanımlama) · merdiven → **`Revit_Stair` ajanına devret** (rıht/
-basamak/kol uzunluğu hesabı, sahanlık, dry run, geri okuma ve yönetmelik
-kontrolü onda; `revit_create_stair` rıht sayısını yürüme çizgisinin
-uzunluğundan alır, elle çizilirse merdiven üst kota varmadan kalabilir) ·
-çatı → **`Revit_Roof` ajanına devret** (form/eğim/saçak/tip
-seçimi, dry run ve doğrulama onda; `revit_create_roof` 2026-10-21'de
-kaynakta düzeltildi ama eklenti Revit kapalıyken yeniden derlenene kadar
-hâlâ hata verir) · `revit_create_railing`
-(gerçek Railing elemanı — bir yol/polyline boyunca, merdivene bağlı olmadan
-da; balkon/teras korkuluğu için — bu ÇALIŞIYOR).
+**Shell / structural system**
+walls / floors → **hand off to the `Revit_WallFloor` agent** · `revit_create_ceiling` (ceiling) ·
+`revit_create_column` (column) · `revit_create_beam` (beam) ·
+`revit_create_grid` (grid axis) · `revit_create_level` / `revit_set_level_elevation`
+(defining storeys/levels) · stairs → **hand off to the `Revit_Stair` agent** (riser
+(rıht)/tread/run length calculation, landing, dry run, read-back and code
+check are its job; `revit_create_stair` takes the riser count from the
+length of the walking line, so a hand-drawn stair can stop short of the top
+level) · roofs → **hand off to the `Revit_Roof` agent** (form/slope/eave
+overhang (saçak)/type selection, dry run and verification are its job;
+`revit_create_roof` was fixed in source on 2026-10-21 but still errors until
+the add-in is rebuilt with Revit closed) · `revit_create_railing`
+(a real Railing element — along a path/polyline, also without being tied to
+a stair; for balcony/terrace guardrails — this WORKS).
 
-**Duvar/açıklık düzenleme**
-duvar çizme/düzeltme/kontrol → **`Revit_WallFloor` ajanına devret** ·
-kapı / pencere → **`Revit_DoorWindow` ajanına devret** ·
-`revit_create_opening_in_wall` (duvarda ailesiz boşluk — tesisat geçişi,
-kapısız/pencere doğramasız delik) · `revit_move_element`, `revit_copy_element`,
+**Wall/opening editing**
+drawing/fixing/checking walls → **hand off to the `Revit_WallFloor` agent** ·
+doors / windows → **hand off to the `Revit_DoorWindow` agent** ·
+`revit_create_opening_in_wall` (a family-less void in a wall — a service
+penetration, a hole with no door or window frame) · `revit_move_element`, `revit_copy_element`,
 `revit_rotate_element`, `revit_mirror_element`, `revit_array_linear`
-(taşı/kopyala/döndür/aynala/çoğalt) · `revit_delete_elements`.
+(move/copy/rotate/mirror/array) · `revit_delete_elements`.
 
-**Görünüş ve pafta üretimi** (çıktı almak için kritik)
+**Views and sheet production (paftalama)** (critical for getting output)
 `revit_create_section_view`, `revit_create_3d_view`,
-`revit_create_perspective_view` (⚠ bilinen birim-ölçek hatası var — bkz.
-[[project_revit_mcp_setup]]; iso 3D view daha güvenilir), `revit_create_floor_plan_view` ·
+`revit_create_perspective_view` (⚠ has a known unit-scale bug — see
+[[project_revit_mcp_setup]]; an iso 3D view is more reliable), `revit_create_floor_plan_view` ·
 `revit_create_sheet`, `revit_place_view_on_sheet`, `revit_export_view_pdf`
-(pafta hazırlayıp PDF almak) · `revit_apply_view_template`,
-`revit_set_view_display_style` (Wireframe/Realistic/RayTrace vb.),
+(compose a sheet and export it to PDF) · `revit_apply_view_template`,
+`revit_set_view_display_style` (Wireframe/Realistic/RayTrace etc.),
 `revit_set_view_detail_level`.
 
-**Ölçülendirme / etiketleme / metraj**
-`revit_create_aligned_dimension` (ölçü çizgisi) · `revit_tag_element`,
-`revit_tag_all_in_view` (etiketleme) · `revit_create_schedule`,
-`revit_configure_schedule`, `revit_get_schedule_data` (metraj/miktar
-tabloları) · `revit_create_text_note`, `revit_create_detail_line`,
-`revit_create_filled_region` (detay/pafta notları).
+**Dimensioning / tagging / quantities**
+`revit_create_aligned_dimension` (dimension line) · `revit_tag_element`,
+`revit_tag_all_in_view` (tagging) · `revit_create_schedule`,
+`revit_configure_schedule`, `revit_get_schedule_data` (quantity/take-off
+schedules) · `revit_create_text_note`, `revit_create_detail_line`,
+`revit_create_filled_region` (detail/sheet notes).
 
-**Malzeme, tip, parametre**
+**Materials, types, parameters**
 `revit_load_family`, `revit_change_element_type`,
 `revit_duplicate_family_type` · `revit_list_wall_types`,
 `revit_list_floor_types`, `revit_list_materials` · `revit_set_parameter`,
 `revit_get_parameter`.
 
-**Koordinasyon / kalite kontrol** (mimari projelerde kritik, en çok atlanan)
-`revit_recipe_clash_review` (çakışma kontrolü — MEP/statik koordinasyonu) ·
-`revit_get_linked_elements`, `revit_get_linked_files` (bağlı modeller) ·
-`revit_check_clearance` (mesafe/erişilebilirlik kontrolü) ·
+**Coordination / quality control** (critical on architectural projects, the most often skipped)
+`revit_recipe_clash_review` (clash check — MEP/structural coordination) ·
+`revit_get_linked_elements`, `revit_get_linked_files` (linked models) ·
+`revit_check_clearance` (distance/accessibility check) ·
 `revit_get_model_health`, `revit_recipe_model_health_triage` (model
-sağlığı) · `revit_list_phases` (fazlama — tadilat/röleve projelerinde
-şart).
+health) · `revit_list_phases` (phasing — essential on renovation/as-built
+survey projects).
 
-**Görünüm filtreleme** (sunum/analiz için)
+**View filtering** (for presentation/analysis)
 `revit_isolate_elements_in_view`, `revit_hide_elements_in_view`,
 `revit_override_element_graphics`, `revit_color_override_by_param`,
 `revit_apply_view_filter`.

@@ -9,6 +9,8 @@ No author/"Prepared by"/reviewer line anywhere. No section listing the
 tooling/scripts used to produce the report. One file per PDF:
 `ForRevitReview/reports/<pdf-stem>/<pdf-stem>.md`.
 
+Reports are written in the user's language; these English headers are the canonical names.
+
 ```markdown
 # Prodim Revit Sheet Quality Control
 
@@ -20,15 +22,15 @@ tooling/scripts used to produce the report. One file per PDF:
 
 | Sheet | Score | Status |
 |---|---|---|
-| A-101 — Zemin Kat Planı | 96 | APPROVED — RELEASE |
-| A-102 — 1. Kat Planı | 68 | REVISE & RESUBMIT |
-| A-400 — Kesitler | 100 | APPROVED — RELEASE — no issues detected |
+| A-101 — Ground Floor Plan | 96 | APPROVED — RELEASE |
+| A-102 — First Floor Plan | 68 | REVISE & RESUBMIT |
+| A-400 — Sections | 100 | APPROVED — RELEASE — no issues detected |
 
 ## Defect table
 
 | Sheet | Location | Category / R-code | Observed issue | Remediation | Severity | Drafter response |
 |---|---|---|---|---|---|---|
-| A-102 | Mutfak, 1. Kat Planı | Tagging / R5 | Mutfak kapısı etiketlenmemiş, kapı cetvelinde aynı tip başka yerlerde etiketli | Kapıyı `revit_tag_element` ile etiketle | CRITICAL | |
+| A-102 | Kitchen, First Floor Plan | Tagging / R5 | Kitchen door is untagged; the same type is tagged elsewhere in the door schedule | Tag the door with `revit_tag_element` | CRITICAL | |
 ```
 
 Rules:

@@ -5,6 +5,8 @@ description: How to author, edit, validate and hand off Dynamo for Revit 3.3 (.d
 
 # dynamo-revit-authoring
 
+All notes added to this skill must be written in English.
+
 Facts below were checked on this machine on 2026-10-02: Dynamo for Revit
 **3.3.2** (`C:\Program Files\Autodesk\Revit 2025\AddIns\DynamoForRevit`,
 `DynamoRevitDS.dll` 3.3.2.12194), Revit **2025.5** (`RevitAPI.dll`
