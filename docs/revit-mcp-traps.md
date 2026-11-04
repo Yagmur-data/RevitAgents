@@ -1,6 +1,6 @@
-# Revit MCP köprüsü — bilinen tuzaklar
+# Revit MCP bridge — known traps
 
-Revit_* ajanlarıyla çalışırken karşılaşılan, araç açıklamalarında yazmayan davranışlar.
+Behaviours met while working with the Revit_* agents that the tool descriptions don't mention.
 
 
 - "unauthorized" from revit_ping = usually TWO Revit.exe running: first instance holds port 7891, the later one overwrote `%APPDATA%/Autodesk/Revit/Addins/2025/revit-mcp-token.txt`. Fix: user closes all Revit, opens one. (Explains the "MCP unauthorized" notes in Revit_Dynamo's log.)

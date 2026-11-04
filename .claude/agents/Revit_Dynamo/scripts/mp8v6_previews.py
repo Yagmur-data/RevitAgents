@@ -61,20 +61,20 @@ def classify_notes(pc, cut=(35.0, 445.0)):
         if c['area'] < 40:
             continue
         if c['kind'] == 'over':
-            notes.append((240, 496, 'kapak tasmasi (tasarim): Y 484 -> 508, %d m2' % round(c['area']) if c['area'] > 3000 else 'STL disina tasma: %d m2' % round(c['area']), '#b36b00'))
+            notes.append((240, 496, 'cap overhang (by design): Y 484 -> 508, %d m2' % round(c['area']) if c['area'] > 3000 else 'spills outside the STL: %d m2' % round(c['area']), '#b36b00'))
             continue
         ends = c['cx'] < cut[0] or c['cx'] > cut[1]
         if ends:
-            lab = ('ince kanat ucu: ucgen YOK\n%d m2' if c['cy'] > 300 else 'kalin kanat kosesi YOK\n%d m2') % round(c['area'])
+            lab = ('thin wing end: triangle MISSING\n%d m2' if c['cy'] > 300 else 'thick wing corner MISSING\n%d m2') % round(c['area'])
         else:
-            lab = 'coken kenar\n%.1f m, %d m2' % (c['depth'], round(c['area']))
+            lab = 'caved-in edge\n%.1f m, %d m2' % (c['depth'], round(c['area']))
         notes.append((c['cx'] + (0 if ends else (-48 if c['cx'] < 240 else 48)), c['cy'] + (16 if ends else 0), lab, RED))
     return notes
 
 
 def fig_plan(cfg, out):
     P = M.footprint_outline(cfg['footprint'])
-    items = (('before', 'ONCE (graf v14: ayak daralmasi 0.35, uc dik kesim)'), ('v15', 'SONRA - graf v15 (exe ayni): ayak daralmasi 0'), ('proposal', 'ONERI - motor V3 (egik uc kesimi; exe yeniden derlenmeli)'))
+    items = (('before', 'BEFORE (graph v14: foot narrowing 0.35, vertical end cut)'), ('v15', 'AFTER - graph v15 (same exe): foot narrowing 0'), ('proposal', 'PROPOSAL - engine V3 (slanted end cut; the exe must be rebuilt)'))
     fig, axs = plt.subplots(1, 3, figsize=(19.5, 8.4))
     stats = {}
     for ax, (k, ttl) in zip(axs, items):
@@ -84,8 +84,8 @@ def fig_plan(cfg, out):
         ce = M.corridor_edges(pc, ys=range(190, 411, 10))
         gaps = [max(abs(l - 226.5), abs(r - 253.5)) for (_, l, r) in ce if l is not None]
         stats[k] = dict(area_under=pc['area_under'], area_over=pc['area_over'], corridor_gap_max=max(gaps), comps=[c for c in pc['comps'] if c['area'] >= 40])
-        ax.text(0.5, -0.07, 'koridor kenari - STL farki (en fazla): %.1f m   |   eksik alan (>0.5 m): %d m2' % (max(gaps), round(pc['area_under'])), transform=ax.transAxes, ha='center', fontsize=9)
-    fig.suptitle('Plan: kabuk (mavi) ve Footprint_261014.stl cizgisi (siyah); kirmizi = STL icinde kabuk yok, turuncu = kabuk STL disina tasiyor (kapak, tasarim geregi)', fontsize=11)
+        ax.text(0.5, -0.07, 'corridor edge vs STL (max): %.1f m   |   missing area (>0.5 m): %d m2' % (max(gaps), round(pc['area_under'])), transform=ax.transAxes, ha='center', fontsize=9)
+    fig.suptitle('Plan: shell (blue) and the Footprint_261014.stl line (black); red = no shell inside the STL, orange = shell spills outside the STL (cap, by design)', fontsize=11)
     fig.tight_layout(rect=(0, 0.02, 1, 0.96))
     fig.savefig(out, dpi=70)
     plt.close(fig)
@@ -114,14 +114,16 @@ def fig_mouth(cfg, out):
     fig, axs = plt.subplots(2, 3, figsize=(18, 10.5))
     res = {}
     # ---- row 0: mouth rims from the PANELS (v14 graph: vertical cut; proposal: slanted cut)
-    for ax, (o, nv, ttl) in zip(axs[0, :2], (((30.0, 0.0), (1.0, 0.0), 'SOL agiz (X = 30): panel noktalari'), ((450.0, 0.0), (-1.0, 0.0), 'SAG agiz (X = 450): panel noktalari'))):
+    # The Turkish key strings below are kept unchanged because they are the keys of the result JSON
+    # (V6_numbers.json); the plot shows the English title.
+    for ax, (o, nv, ttl, title) in zip(axs[0, :2], (((30.0, 0.0), (1.0, 0.0), 'SOL agiz (X = 30): panel noktalari', 'LEFT mouth (X = 30): panel points'), ((450.0, 0.0), (-1.0, 0.0), 'SAG agiz (X = 450): panel noktalari', 'RIGHT mouth (X = 450): panel points'))):
         xy, p, r = rim_fit_panels(cfg['before']['bkl'], cfg['before']['adapter'], o, nv)
         ax.plot(xy[:, 0], xy[:, 1], 'k.', ms=4)
         ax.plot(*ell_xy(p), 'r--', lw=1.2)
         ax.set_aspect('equal')
-        ax.set_title(ttl, fontsize=10)
+        ax.set_title(title, fontsize=10)
         ax.set_ylim(-5, 46)
-        ax.set_xlabel('Y (m)\nelips A %.2f x B %.2f m | en buyuk sapma %.2f m = %%%.1f B (rms %.2f)' %(p[2], p[3], np.abs(r).max(), np.abs(r).max() / p[3] * 100, np.sqrt((r ** 2).mean())), fontsize=9)
+        ax.set_xlabel('Y (m)\nellipse A %.2f x B %.2f m | max deviation %.2f m = %%%.1f B (rms %.2f)' %(p[2], p[3], np.abs(r).max(), np.abs(r).max() / p[3] * 100, np.sqrt((r ** 2).mean())), fontsize=9)
         ax.set_ylabel('Z (m)')
         res[ttl] = dict(A=round(float(p[2]), 2), B=round(float(p[3]), 2), max_dev=round(float(np.abs(r).max()), 3), pct=round(float(np.abs(r).max() / p[3] * 100), 2))
     if 'v15' in cfg and cfg['v15'].get('bkl'):
@@ -137,21 +139,21 @@ def fig_mouth(cfg, out):
         xy = np.c_[Pr[:, 1], Pr[:, 2]]
         p, r = M.fit_ellipse_pts(xy)
         ax = axs[0, 2]
-        ax.plot(on[:, 1], on[:, 2], 'k.', ms=4, label='egik kenar (kirpilmis panel koseleri)')
-        ax.plot(vert[:, 1], vert[:, 2], '.', color='#1f77b4', ms=4, label='kapak: dik kenar (X = 0.65)')
+        ax.plot(on[:, 1], on[:, 2], 'k.', ms=4, label='slanted edge (clipped panel corners)')
+        ax.plot(vert[:, 1], vert[:, 2], '.', color='#1f77b4', ms=4, label='cap: vertical edge (X = 0.65)')
         ax.plot(*ell_xy(p), 'r--', lw=1.2)
         ax.set_aspect('equal')
-        ax.set_title('graf v15: SOL agiz, kirpilmis panel kenari (uctan gorunum)', fontsize=10)
+        ax.set_title('graph v15: LEFT mouth, clipped panel edge (end-on view)', fontsize=10)
         ax.set_ylim(-5, 46)
         ax.legend(fontsize=7, loc='lower center')
-        ax.set_xlabel('Y (m)\nelips A %.2f x B %.2f m | en buyuk sapma %.2f m = %%%.1f B (rms %.2f)' % (p[2], p[3], np.abs(r).max(), np.abs(r).max() / p[3] * 100, np.sqrt((r ** 2).mean())), fontsize=9)
+        ax.set_xlabel('Y (m)\nellipse A %.2f x B %.2f m | max deviation %.2f m = %%%.1f B (rms %.2f)' % (p[2], p[3], np.abs(r).max(), np.abs(r).max() / p[3] * 100, np.sqrt((r ** 2).mean())), fontsize=9)
         res['v15_clipped_rim'] = dict(A=round(float(p[2]), 2), B=round(float(p[3]), 2), max_dev=round(float(np.abs(r).max()), 3), pct=round(float(np.abs(r).max() / p[3] * 100), 2), points_on_slanted_line=int(len(on)))
     # ---- row 1: see-through aperture (end-on)
     c = (473.0, 21.5)
     img = None
     if cfg.get('image5') and os.path.isfile(cfg['image5']):
         img = M.image_contour(cfg['image5'])
-    for ax, key, ttl in ((axs[1, 0], 'before', 'GORUNEN DELIK (aperture) - graf v14: Gauss kubbesi kolu 2.9 m kaldiriyor'), (axs[1, 1], 'sigma70', 'SECENEK: Gauss Sigma X ust+alt = 70 (kopru kemeri daralir)')):
+    for ax, key, ttl in ((axs[1, 0], 'before', 'VISIBLE HOLE (aperture) - graph v14: the Gauss dome lifts the arm 2.9 m'), (axs[1, 1], 'sigma70', 'OPTION: Gauss Sigma X upper+lower = 70 (the bridge arch narrows)')):
         if key not in cfg:
             ax.axis('off')
             continue
@@ -160,16 +162,16 @@ def fig_mouth(cfg, out):
         rim_o, rimP = M.describe_curve(th, R[0], c)
         ap_o, apP = M.describe_curve(th, R.min(axis=0), c)
         pe, _ = M.fit_ellipse_pts(apP)
-        ax.fill(rimP[:, 0], rimP[:, 1], color='0.90', label='agiz kesiti (X = 30)')
-        ax.fill(apP[:, 0], apP[:, 1], color='#bcd7f2', label='gorunen delik')
-        ax.plot(*ell_xy(pe), 'r--', lw=1.2, label='delige en iyi uyan elips')
+        ax.fill(rimP[:, 0], rimP[:, 1], color='0.90', label='mouth section (X = 30)')
+        ax.fill(apP[:, 0], apP[:, 1], color='#bcd7f2', label='visible hole')
+        ax.plot(*ell_xy(pe), 'r--', lw=1.2, label='best-fit ellipse to the hole')
         ax.plot(rimP[:, 0], rimP[:, 1], 'k-', lw=0.8)
         ax.set_aspect('equal')
         ax.set_title(ttl, fontsize=9.5)
         zb = [c[1] - R[i][int(np.argmin(np.abs(th + np.pi / 2)))] for i in range(len(used))]
         ax.set_ylim(-5, 46)
         ax.legend(loc='lower center', fontsize=7)
-        ax.set_xlabel('Y (m)\ndelik yuksekligi %.1f m (agiz %.1f) | taban en fazla %.1f m yukselmis\nelipse sapma %.2f m = %%%.1f B (agiz kenari: %.2f m = %%%.1f B)' %(ap_o['height'], rim_o['height'], max(zb) - zb[0], ap_o['max_dev'], ap_o['max_dev_pct_B'], rim_o['max_dev'], rim_o['max_dev_pct_B']), fontsize=8.5)
+        ax.set_xlabel('Y (m)\nhole height %.1f m (mouth %.1f) | bottom raised by up to %.1f m\ndeviation from the ellipse %.2f m = %%%.1f B (mouth rim: %.2f m = %%%.1f B)' %(ap_o['height'], rim_o['height'], max(zb) - zb[0], ap_o['max_dev'], ap_o['max_dev_pct_B'], rim_o['max_dev'], rim_o['max_dev_pct_B']), fontsize=8.5)
         ax.set_ylabel('Z (m)')
         res['aperture_' + key] = dict(height=ap_o['height'], rim_height=rim_o['height'], bottom_lift=round(max(zb) - zb[0], 2), max_dev=ap_o['max_dev'], pct=ap_o['max_dev_pct_B'], rim_max_dev=rim_o['max_dev'], rim_pct=rim_o['max_dev_pct_B'], bottomB=ap_o['bottom']['B'], topB=ap_o['top']['B'])
         if key == 'before':
@@ -183,16 +185,16 @@ def fig_mouth(cfg, out):
         ax.plot((pi[:, 0] - pe[0]) * s, (pi[:, 1] - pe[1]) * s, 'k.', ms=3)
         ax.plot(*ell_xy((0, 0, pe[2] * s, pe[3] * s)), 'r--', lw=1.2)
         ax.set_aspect('equal')
-        ax.set_title("Al'in ekran goruntusu (5.png): kontur", fontsize=9.5)
+        ax.set_title("Al's screenshot (5.png): contour", fontsize=9.5)
         top = pi[pi[:, 1] > pe[1]]
         bot = pi[pi[:, 1] <= pe[1]]
         qt, rt = M.fit_ellipse_pts(top)
         qb, rb = M.fit_ellipse_pts(bot)
-        ax.set_xlabel('sol yari = kapak tarafi (tam elips), sag yari = birlesim tarafi; olcek: genislik 69.8 m\nelips sapmasi %.2f m = %%%.1f B, rms %.2f m | ust yari B %.1f m, alt yari B %.1f m' % (np.abs(r).max() * s, np.abs(r).max() / pe[3] * 100, np.sqrt((r ** 2).mean()) * s, qt[3] * s, qb[3] * s), fontsize=8.5)
+        ax.set_xlabel('left half = cap side (full ellipse), right half = seam side; scale: width 69.8 m\nellipse deviation %.2f m = %%%.1f B, rms %.2f m | top half B %.1f m, bottom half B %.1f m' % (np.abs(r).max() * s, np.abs(r).max() / pe[3] * 100, np.sqrt((r ** 2).mean()) * s, qt[3] * s, qb[3] * s), fontsize=8.5)
         res['image5'] = dict(max_dev_m=round(float(np.abs(r).max() * s), 2), pct=round(float(np.abs(r).max() / pe[3] * 100), 1), rms_m=round(float(np.sqrt((r ** 2).mean()) * s), 2), top_B=round(float(qt[3] * s), 2), bottom_B=round(float(qb[3] * s), 2))
     else:
         ax.axis('off')
-    fig.suptitle('Agiz elipsi: panel kenarlarindan olculen agiz (ust sira) ve ucta gorunen delik (alt sira)', fontsize=11)
+    fig.suptitle('Mouth ellipse: the mouth measured from the panel edges (top row) and the hole visible at the end (bottom row)', fontsize=11)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(out, dpi=70)
     plt.close(fig)
@@ -210,8 +212,8 @@ def fig_ends(cfg, out):
     P = M.footprint_outline(cfg['footprint'])
     fig, axs = plt.subplots(2, 2, figsize=(15, 11))
     stats = {}
-    wins = (((-25, 100, 425, 515), 'sol uc - ince kanat'), ((-5, 105, 100, 170), 'sol kose - kalin kanat'))
-    for j, (key, ttl) in enumerate((('before', 'ONCE (graf v14): X = 30 dik kesim'), ('proposal', 'ONERI (motor V3): STL egik cizgisinde kesim'))):
+    wins = (((-25, 100, 425, 515), 'left end - thin wing'), ((-5, 105, 100, 170), 'left corner - thick wing'))
+    for j, (key, ttl) in enumerate((('before', 'BEFORE (graph v14): X = 30 vertical cut'), ('proposal', 'PROPOSAL (engine V3): cut on the slanted STL line'))):
         n, rh, tr = M.bkl_to_user(cfg[key]['bkl'], cfg[key]['adapter'])
         polys, kind = panel_polys_plan(n, rh, tr)
         cen = np.array([p.mean(0) for p in polys])
@@ -226,11 +228,11 @@ def fig_ends(cfg, out):
             ax.set_ylim(win[2], win[3])
             ax.set_aspect('equal')
             ax.set_title('%s - %s' % (ttl, wname), fontsize=10)
-            ax.set_xlabel('X (m)   kirmizi cizgi = Footprint_261014.stl')
+            ax.set_xlabel('X (m)   red line = Footprint_261014.stl')
             ntri = sum(1 for k in sel if kind[k] == 1)
-            ax.text(0.02, 0.97, '%d panel, %d ucgen' % (len(sel), ntri), transform=ax.transAxes, va='top', fontsize=9, bbox=dict(fc='w', ec='0.6'))
+            ax.text(0.02, 0.97, '%d panels, %d triangles' % (len(sel), ntri), transform=ax.transAxes, va='top', fontsize=9, bbox=dict(fc='w', ec='0.6'))
             stats['%s_%s' % (key, 'thin' if i == 0 else 'thick')] = dict(panels=len(sel), triangles=ntri)
-    fig.suptitle('Uc bolgesi: paneller (mavi = baklava, turuncu = ucgen) ve STL cizgisi; solda dik kesim (STL ucgeni boş), sagda egik kesim (STL cizgisine kadar)', fontsize=11)
+    fig.suptitle('End zone: panels (blue = rhombus, orange = triangle) and the STL line; left: vertical cut (STL triangle left empty), right: slanted cut (up to the STL line)', fontsize=11)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(out, dpi=70)
     plt.close(fig)
