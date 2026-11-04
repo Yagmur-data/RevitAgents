@@ -1,7 +1,7 @@
 """opening_layout.py - door/window positions along a straight wall.
 
-Turns "kapıyı duvarın başından 1 m içeri koy" or "bu duvara eşit aralıklı
-3 pencere" into the insertion points revit_place_family_instance needs
+Turns "put the door 1 m in from the start of the wall" or "3 equally spaced
+windows in this wall" into the insertion points revit_place_family_instance needs
 (the centre of each opening, on the wall's location line), and checks that
 every opening stays inside the wall and does not overlap an existing one.
 

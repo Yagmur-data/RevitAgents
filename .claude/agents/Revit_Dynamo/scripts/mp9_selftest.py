@@ -36,6 +36,13 @@ DYN = os.path.join(WORK, "MashProject9_v11.dyn")
 PY = os.path.join(WORK, "MashProject9_v11.py")
 NAME_RE = re.compile(r'^[A-Za-z0-9_\-]{1,180}$')
 
+# The Turkish substrings in the checks below are matched against the node's own (Turkish) user messages
+# and must stay exactly as the node writes them. Glosses: 'reddedilir' = is refused; 'İNCE ŞERİT' = THIN STRIP;
+# 'Yalnız' = only; 'yüzeyin dışında' = outside the surface; 'Önce File ▸ New ▸ ... aç ve grafiği orada çalıştır.'
+# = first open File ▸ New ▸ ... and run the graph there; 'Mass kategorisinde değil' = not in the Mass category;
+# 'engel yok' = no blocker; 'ENGEL' = BLOCKED; 'senin elemanını' = your element; 'tahmini' = estimated;
+# 'KARESİYLE' = with the SQUARE (of n); ' sa' = hours (abbr.); 'gün' = days.
+
 
 def node_code(dyn):
     d = load(dyn)

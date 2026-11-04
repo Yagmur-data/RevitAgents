@@ -76,7 +76,7 @@ def main():
     ap.add_argument("--floor-landing-depth", type=float,
                     help="clear depth required at the bottom and top floor landings, m")
     ap.add_argument("--advise-risers-per-flight", type=int,
-                    help="comfort limit: warn (ÖNERİ) above this many risers per flight")
+                    help="comfort limit: warn (status ÖNERİ = advisory) above this many risers per flight")
     ap.add_argument("--start", help="x,y of the first flight's walking-line start")
     ap.add_argument("--dir", default="1,0", help="dx,dy of the first flight; write --dir=-1,0 for a negative x")
     ap.add_argument("--layout", choices=["straight", "U"], default="straight")
@@ -150,6 +150,7 @@ def main():
     if a.advise_risers_per_flight:
         long_ = [f["flight"] for f in fl if f["risers"] > a.advise_risers_per_flight]
         if long_:
+            # "ÖNERİ" (= advisory) is the stair-code-check skill's status label; kept as-is.
             out["warnings"].append(
                 f"ÖNERİ: flight(s) {long_} over {a.advise_risers_per_flight} risers — "
                 "consider an intermediate landing")

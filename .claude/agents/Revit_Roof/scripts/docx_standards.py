@@ -1,4 +1,4 @@
-"""List the standards a project Word document (ТЗ / şartname, .docx) already names.
+"""List the standards a project Word document (ТЗ / specification, .docx) already names.
 
 Revit_Roof uses this before a roof code check: if the document names any
 standards, those are the basis and the roof-code-check skill's own rules are
@@ -37,8 +37,9 @@ PATTERNS = [
     r"STANAG\s*\d+",
     # Generic "comply with national norms" clauses with no number.
     r"(?<![\w])(?:СП|ГОСТ|СНиП|СанПиН|ТУ)(?=[\s,.;])(?!\s*(?:Р\s*)?\d)",
-    r"Yönetmeli[kğ]\w*",
+    r"Yönetmeli[kğ]\w*",                  # Turkish "Yönetmelik" = regulation; matches document text, keep in Turkish
 ]
+# Roof words to search for: Russian (кровля, крыша), Turkish (çatı) and English; keep as-is.
 ROOF_WORDS = r"кровл\w*|крыш\w*|çatı\w*|roof\w*"
 
 
