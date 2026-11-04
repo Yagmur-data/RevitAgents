@@ -32,3 +32,4 @@ Don't duplicate the chronological log here — only the distilled rule.
   all live there. Worth checking before reinventing a pattern HR has
   already built once.
 - (2026-11-04) On re-reviews print the raw (unfloored) score beside the floored one — when the stamp rows alone cost 76 points every sheet shows 0 and progress is invisible.
+- (2026-11-04) When the Drafter adds a ledger/schedule with new marks, read the tag TEXT on the plans (get_text dict) and compare to the ledger marks — a tag can show Type Mark while the ledger lists instance Mark; also verify the ledger counts per level against the tag counts.
