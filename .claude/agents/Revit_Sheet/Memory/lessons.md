@@ -33,3 +33,4 @@ Don't duplicate the chronological log here — only the distilled rule.
   already built once.
 - (2026-11-04) On re-reviews print the raw (unfloored) score beside the floored one — when the stamp rows alone cost 76 points every sheet shows 0 and progress is invisible.
 - (2026-11-04) When the Drafter adds a ledger/schedule with new marks, read the tag TEXT on the plans (get_text dict) and compare to the ledger marks — a tag can show Type Mark while the ledger lists instance Mark; also verify the ledger counts per level against the tag counts.
+- (2026-11-04) After the Drafter moves tags, re-measure each moved span against wall lines in a crop — a name wider than its room (e.g. «Санузел женский» 34 mm in a ~25 mm room) only changes which wall it crosses; call it unfixable by moving and route to the number-only + Экспликация decision.

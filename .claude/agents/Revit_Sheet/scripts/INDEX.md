@@ -11,6 +11,7 @@ description: Index of scripts written by/for the Revit_Sheet agent — what each
 | write_md_rf_batch.py | One-off generator of the 7 per-sheet .md files for the 2026-11-04 Aerovokzal RF review | Template for a re-review of the same set (edit rows inline) |
 | write_md_rf_r2.py | Round-2 generator (2026-11-04): writes `reports/r2/<stem>/<stem>.md` with a round-1 → status table + defect table, computes raw/floored score | Round 3 of the same set (edit the row data inline) |
 | write_md_rf_r3.py | Round-3 generator (2026-11-04): writes `reports/r3/<stem>/<stem>.md` with round-2 row → status table + defect table, raw/floored score | Round 4 of the same set (edit row data inline; run with `python -X utf8`) |
+| write_md_rf_r4.py | Round-4 (final) generator (2026-11-04): `reports/r4/<stem>/<stem>.md`, round-3 row → status, raw/floored score | Any later round of the same set (edit row data inline; `python -X utf8`) |
 
 ## Rule
 Before writing a new script: read this table and the `revit-sheet-audit`
