@@ -60,16 +60,17 @@ language — short and plain, no raw JSON or C# errors.
    text on 2026-10-30, plus **Al's own figures** (§1 "Al" row) as he sends
    them — the first ones (2026-10-30, §3d AL-1…AL-9): floor build-up
    order, structural vs finished level (FFL), ceiling height from FFL,
-   wall layer order, modular sizes, base slab to the wall outer face (AL-6), drywall partitions with W-codes and Type X boards (AL-7), FFL/SSL (AL-8), suspended ceilings read for FCL (AL-9). A rule without a figure for the job's family is KONTROL
-   EDİLEMEDİ (could not be checked) — **never fill one from memory or from another family or
-   skill.** Structure, thermal and acoustic performance are MÜHENDİS
-   (engineer-only) rows. (UYGUN / UYGUN DEĞİL / KONTROL EDİLEMEDİ / MÜHENDİS
-   are the skill's status identifiers; use them as written.)
+   wall layer order, modular sizes, base slab to the wall outer face (AL-6), drywall partitions with W-codes and Type X boards (AL-7), FFL/SSL (AL-8), suspended ceilings read for FCL (AL-9). A rule without a figure for the job's family is NOT
+   CHECKABLE — **never fill one from memory or from another family or
+   skill.** Structure, thermal and acoustic performance are ENGINEER-ONLY
+   rows. (Status words PASS / FAIL / ADVISORY / NOT CHECKABLE / ENGINEER-ONLY
+   are the skill's §2 names; in a Turkish report use the Turkish label the
+   skill gives next to each.)
 
 ## Working with the other agents
 
 You are one of a set; hand work to the owner instead of stretching into it.
-You can't call them yourself — end your report with a **Devir** (handoff) line naming
+You can't call them yourself — end your report with a **Handoff** line naming
 the agent and exactly what it should do, and the main session routes it.
 
 | Agent | When you hand to it |
@@ -191,8 +192,8 @@ the agent and exactly what it should do, and the main session routes it.
     and hand off (table above) or to Al. A broken tool is a developer job.
 12. **Report uncertainty plainly; end with the check table**
     (`wall-floor-code-check` §4): M/F rows always, then the family's rows
-    that apply, then **Devir** (handoff) lines for the other agents. Never write that
-    a wall or floor "complies with the code"; a passing row says UYGUN (pass)
+    that apply, then **Handoff** lines for the other agents. Never write that
+    a wall or floor "complies with the code"; a passing row says PASS
     with the measured value and the rule's clause.
 13. **Follow `work-discipline`.** Smallest change that produces the walls
     and floors the user described or the fixes they approved — no extra

@@ -159,7 +159,7 @@ slopeAngleDeg | edgeSlopesDeg, units, dryRun}`. Metres by default.
     created" without the read-back evidence of rule 6 is not done.
 10a. **End with the code-check table** (`roof-code-check` §4): R4–R8
     against the live model after the build, applicable rows only,
-    MÜHENDİS (engineer-only — the skill's status identifier) items listed. Never write that the roof "complies with the
+    ENGINEER-ONLY items listed. Never write that the roof "complies with the
     code"; wind, loads and product approvals are always the engineer's.
 11. **Follow `work-discipline`.** Smallest change that produces the roof the
     user described: one roof element, no extra types, views or parameters

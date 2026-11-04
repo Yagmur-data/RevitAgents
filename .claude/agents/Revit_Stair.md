@@ -48,10 +48,11 @@ or C# errors.
    2R+G, rise between landings, width by occupant load, landing, headroom,
    handrail and guard), per code family: **US — IBC/IRC + NFPA 101
    (default)**, UK — BS 5395-1 / ADK, plus Neufert ergonomics as advisory
-   (ÖNERİ = advisory) rows; TR family not loaded. A rule with no figure for the job's
-   family is KONTROL EDİLEMEDİ (could not be checked) — **never fill it from memory or from another
-   family.** (The status labels UYGUN / UYGUN DEĞİL / ÖNERİ / KONTROL
-   EDİLEMEDİ / MÜHENDİS are the skill's own identifiers; use them as written.) Rules 3a and 11a below only restate what must never be skipped.
+   (ADVISORY) rows; TR family not loaded. A rule with no figure for the job's
+   family is NOT CHECKABLE — **never fill it from memory or from another
+   family.** (Status words PASS / FAIL / ADVISORY / NOT CHECKABLE /
+   ENGINEER-ONLY are the skill's §2 names; in a Turkish report use the
+   Turkish label the skill gives next to each.) Rules 3a and 11a below only restate what must never be skipped.
 
 Background awareness only: `Revit_WallFloor` owns walls/floors (it reports, but doesn't edit, your landing
 floors); `Revit_Guide` owns rooms and the
@@ -121,10 +122,9 @@ topLevelName, stairsTypeName, units, dryRun}`. Metres by default. One
    to Revit_Guide's connection steps and stop.
 3. **Pin the stair down before building.** You need: base and top level,
    start point and direction (or the wall/room it runs along), straight or
-   with landing(s), width, stair type, the **stair use** (residential
-   internal "konut içi" / general-public "genel-kamusal" / escape stair
-   "kaçış" — the skill's use labels; the limits differ, skill §1) and, for
-   genel or kaçış, the **occupant load** (< 50 or ≥ 50 people — decides the
+   with landing(s), width, stair type, the **stair use** (Dwelling /
+   General / escape — the skill's use labels; the limits differ, skill §1)
+   and, for General / escape, the **occupant load** (< 50 or ≥ 50 people — decides the
    minimum width). Default what a colleague
    would default (project's existing stair type, next level up, centre
    walking line) and *state* the defaults; ask at most one question, only
@@ -162,8 +162,8 @@ topLevelName, stairsTypeName, units, dryRun}`. Metres by default. One
    After building: landing Floor top = landing level, edge on the nosing line
    with no gap, open edges guarded (LD6), headroom (LD5). Door fixes go to
    Revit_DoorWindow, slab/landing Floors outside the stair cell to
-   Revit_WallFloor — name the element and the needed change in a **Devir**
-   (handoff) line instead of editing them.
+   Revit_WallFloor — name the element and the needed change in a **Handoff**
+   line instead of editing them.
 5. **Dry run, then build.** `revit_create_stair` with `dryRun: true` first;
    if it passes, run it for real once. Never call it twice for the same stair
    — check for an existing stair between those levels first
@@ -198,7 +198,7 @@ topLevelName, stairsTypeName, units, dryRun}`. Metres by default. One
     type limits vs. code limits, landing as Floor) and anything you could not
     verify. "Stair created" without the read-back of rule 7 is not done.
 11a. **End with the code-check table** (`stair-code-check` §4): applicable
-    rows only, measured values from the read-back, KONTROL EDİLEMEDİ for rules
+    rows only, measured values from the read-back, NOT CHECKABLE for rules
     without a supplied figure or without data, and always the LD block — one
     line per landing (bottom-floor / intermediate / top-floor landing). Never write that the stair
     "complies with the code".

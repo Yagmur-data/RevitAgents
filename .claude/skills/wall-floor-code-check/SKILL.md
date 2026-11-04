@@ -1,6 +1,6 @@
 ---
 name: wall-floor-code-check
-description: Wall and floor (döşeme) rules the Revit_WallFloor agent builds to, fixes against and reports on — model-integrity checks that need no standard (duplicate/overlapping walls, open joins, walls not tied to levels, uneven heights, foundation slab used as a floor, slab edges vs the wall outline, overlapping floors, storey clear height, room bounding) plus code rules for walls and floors. TR family (Planlı Alanlar İmar Yönetmeliği (Planned Areas Zoning Regulation), Binaların Yangından Korunması Hakkında Yönetmelik (Regulation on the Fire Protection of Buildings), Binalarda Enerji Performansı (BEP) Yönetmeliği (Energy Performance of Buildings Regulation) / TS 825 — the 2008 Isı Yalıtım Yönetmeliği (Thermal Insulation Regulation) is repealed, Gürültü Yönetmeliği (Noise Regulation), accessibility, TBDY 2018 (Turkish Building Earthquake Code) minimum geometry) and RF family (123-ФЗ, СП 2.13130, СП 29.13330, СП 59.13330, СП 118.13330, СП 50/51.13330) loaded 2026-10-30 from the official text; Al's own conventions (2026-10-30: floor/wall build-up order, structural vs finished level, ceiling height from FFL, modular sizes) in §3d. Says for each rule how the agent checks it in the live Revit model, what it does when a rule fails, and which items are engineer-only.
+description: "Wall and floor (döşeme) rules the Revit_WallFloor agent builds to, fixes against and reports on — model-integrity checks that need no standard (duplicate/overlapping walls, open joins, walls not tied to levels, uneven heights, foundation slab used as a floor, slab edges vs the wall outline, overlapping floors, storey clear height, room bounding) plus code rules for walls and floors. TR family (Planlı Alanlar İmar Yönetmeliği (Planned Areas Zoning Regulation), Binaların Yangından Korunması Hakkında Yönetmelik (Regulation on the Fire Protection of Buildings), Binalarda Enerji Performansı (BEP) Yönetmeliği (Energy Performance of Buildings Regulation) / TS 825 — the 2008 Isı Yalıtım Yönetmeliği (Thermal Insulation Regulation) is repealed, Gürültü Yönetmeliği (Noise Regulation), accessibility, TBDY 2018 (Turkish Building Earthquake Code) minimum geometry) and RF family (123-ФЗ, СП 2.13130, СП 29.13330, СП 59.13330, СП 118.13330, СП 50/51.13330) loaded 2026-10-30 from the official text; Al's own conventions (2026-10-30: floor/wall build-up order, structural vs finished level, ceiling height from FFL, modular sizes) in §3d. Says for each rule how the agent checks it in the live Revit model, what it does when a rule fails, and which items are engineer-only."
 ---
 
 # wall-floor-code-check
@@ -55,11 +55,11 @@ Same rule as `stair-code-check` §0 / `door-window-code-check` §0 (Al,
 | **Temporary / seasonal building?** (RF) | СП 50 (thermal), СП 478 (terminal rows) | СП 50 excludes buildings used ≤ 2 heating seasons; СП 478 excludes seasonal ones. Аэровокзал is "non-capital quick-erect" — ask Al |
 | Which walls are **fire walls / compartment / corridor / stair / shaft** walls | fire rows | Ask; never infer from a type name alone |
 
-## 2. Status words (Turkish report)
+## 2. Status words
 
-Same as `stair-code-check` §2: **COMPLIANT** (UYGUN), **NON-COMPLIANT**
-(UYGUN DEĞİL), **RECOMMENDATION** (ÖNERİ), **NOT CHECKABLE** (KONTROL
-EDİLEMEDİ), **ENGINEER** (MÜHENDİS) — the Turkish label in brackets is the
+Same as `stair-code-check` §2: **PASS** (UYGUN), **FAIL**
+(UYGUN DEĞİL), **ADVISORY** (ÖNERİ), **NOT CHECKABLE** (KONTROL
+EDİLEMEDİ), **ENGINEER-ONLY** (MÜHENDİS) — the Turkish label in brackets is the
 one printed in a Turkish-language report. BLOCK rows stop a build before it
 starts (give the failing and the compliant value, wait); FLAG rows are
 built and reported prominently.
@@ -78,7 +78,7 @@ live model; ids and values go into the report.
 | **M5 Right type** | Exterior outline in an exterior type, partitions in an interior type, no curtain type where a solid wall was meant; Location Line consistent per job | `query_where` Type / Location Line | **FLAG** |
 | **M6 Room bounding** | Walls that separate rooms are Room Bounding = Yes; rooms stay placed and enclosed after a change (`revit_list_rooms` area > 0) | `query_where` Room Bounding, `list_rooms` | **FLAG**, fix with yes |
 | **F1 Floor type is a floor** | No Foundation Slab family above the lowest level; omitted type never used | audit F1, `list_floor_types` familyName | new: **BLOCK**; existing: re-type with yes |
-| **F2 Slab edge convention** | Slab edges follow one convention per job (centreline / inner face / outer face) and close to the exterior walls without gaps; slabs outside the outline are named (apron, canopy, external landing). **Base slab: outer face, no gaps (AL-6)** | audit F2 | base slab short of the outer face or a gap to an apron: **NON-COMPLIANT**; upper slabs: **FLAG**, ask which convention |
+| **F2 Slab edge convention** | Slab edges follow one convention per job (centreline / inner face / outer face) and close to the exterior walls without gaps; slabs outside the outline are named (apron, canopy, external landing). **Base slab: outer face, no gaps (AL-6)** | audit F2 | base slab short of the outer face or a gap to an apron: **FAIL**; upper slabs: **FLAG**, ask which convention |
 | **F3 No duplicate floors** | Floors on one level don't overlap unless a stepped/recessed slab is intended | audit F3 | new: **BLOCK**; existing: list |
 | **F4 Level and offset** | Floor on the intended level, `Height Offset From Level` as planned (0 unless a step is intended) | read-back | fix before reporting |
 | **F5 Storey clear height** | Level-to-level minus the upper slab = the clear height used by the code rows (H rows) | audit `storey_heights` | feeds the code rows |
@@ -116,9 +116,9 @@ TBDY 2018 annex). HR re-checked 7 quotes in the downloaded official PDFs
 | TR-W4 | Compartment walls (different uses in one building; boiler room, car park, main electrical, transformer, generator rooms) | REI 60, or Ek-3/C if greater | Yangın 4(tt), 24(2), Ek-3/B rows 6–7 | type `Fire Rating` | **FLAG** |
 | TR-W5 | Escape-stair enclosure / fire lobby walls (doors 90 min smoke-tight, Revit_DoorWindow); walls between stair, emergency-lift shaft and lobby | REI 120; between them REI 60 | Yangın 38(3), 34(2), Ek-3/B 9a–9b | type `Fire Rating` | **FLAG** |
 | TR-W6 | Shafts: lift shaft + machine room ≥ 60 min, non-combustible; protected shafts REI 120; high-rise service shafts ≥ 120 min; boiler room walls ≥ 120 min | see value | Yangın 62(2), Ek-3/B 8, 25(3), 54(2) | type `Fire Rating` | **FLAG** |
-| TR-W7 | Spandrel: ≥ 1.00 m fire-resistant solid façade between unprotected openings of consecutive storeys (or a façade sprinkler line) | ≥ 1.00 m | Yangın 27(1) | (storey height − lower window head) + upper sill, per façade stack (windows via `revit_get_element_info`) | **FLAG** (curtain walls: slab-edge seal 27(3)(a) → ENGINEER) |
-| TR-W8 | Load-bearing masonry minimum thickness (plaster excluded): cut stone 350, other units / confined / reinforced 240, reinforced panel 200 mm; parapet without a bond beam ≤ 4 × thickness | see value | TBDY 11.5.1 Table 11.4, 11.1.4, 11.5.12 | type width (core) of walls marked load-bearing masonry | **FLAG** + ENGINEER |
-| TR-W9 | RC shear wall (perde) thickness ≥ max(storey height/16, 250 mm); 200 mm only under Eq. 7.14; tall buildings ≥ 300 mm | see value | TBDY 7.6.1.2–7.6.1.3, 13.1.6 | type width of Structural walls | **FLAG** + ENGINEER |
+| TR-W7 | Spandrel: ≥ 1.00 m fire-resistant solid façade between unprotected openings of consecutive storeys (or a façade sprinkler line) | ≥ 1.00 m | Yangın 27(1) | (storey height − lower window head) + upper sill, per façade stack (windows via `revit_get_element_info`) | **FLAG** (curtain walls: slab-edge seal 27(3)(a) → ENGINEER-ONLY) |
+| TR-W8 | Load-bearing masonry minimum thickness (plaster excluded): cut stone 350, other units / confined / reinforced 240, reinforced panel 200 mm; parapet without a bond beam ≤ 4 × thickness | see value | TBDY 11.5.1 Table 11.4, 11.1.4, 11.5.12 | type width (core) of walls marked load-bearing masonry | **FLAG** + ENGINEER-ONLY |
+| TR-W9 | RC shear wall (perde) thickness ≥ max(storey height/16, 250 mm); 200 mm only under Eq. 7.14; tall buildings ≥ 300 mm | see value | TBDY 7.6.1.2–7.6.1.3, 13.1.6 | type width of Structural walls | **FLAG** + ENGINEER-ONLY |
 
 **Floors**
 
@@ -129,8 +129,8 @@ TBDY 2018 annex). HR re-checked 7 quotes in the downloaded official PDFs
 | TR-F3 | Level changes: ramps by height climbed ≤ 15 cm 8 % · 16–50 cm 7 % · 51–100 cm 6 % · > 100 cm 5 %; handrails 0.90 + 0.70 m; escape routes: < 4 steps by ramp ≤ 10 % | see value | İmar 30(12)(13); Yangın 36(1)(b)(3), 44(1)(a) | rise / run of the sloped floor or ramp | **BLOCK** for a new step; sloped elements the tools can't build → hand off |
 | TR-F4 | Guard ≥ 1.10 m, gaps ≤ 0.10 m at free floor edges (balconies, terraces, gallery voids, landings), gardens > 0.50 m above/below, window sills < 0.90 m | see value | İmar 38(1)(4) | slab edges outside the wall outline / voids (audit F2) with a drop | **FLAG** → railing: Revit_Stair (`revit_create_railing`); sills: Revit_DoorWindow |
 | TR-F5 | Escape-corridor floor steps < 4 risers → ramp ≤ 10 %; fire-lobby floor slope to the exit ≤ 1/200 | see value | Yangın 36(1)(b)(3), 34(5) | | **FLAG** |
-| TR-F6 | Slab minimums: ribbed (joist) slab top plate ≥ 70 mm; masonry-building slab ≥ 100 mm; precast topping ≥ 70 mm; solid slabs → TS 500 (not loaded) | see value | TBDY 7.11.2, 11.3.7, 8.6.2.6 | floor `Thickness` | **FLAG** + ENGINEER; solid slab → NOT CHECKABLE |
-| TR-F7 | Floor finish slip-resistant, wheelchair-suitable; finish at least normal-flammable (high-rise: hardly-flammable); combustible insulation only under ≥ 2 cm screed | qualitative | İmar 30(8); Yangın 26(2)(3) | material names only | NOT CHECKABLE / ENGINEER |
+| TR-F6 | Slab minimums: ribbed (joist) slab top plate ≥ 70 mm; masonry-building slab ≥ 100 mm; precast topping ≥ 70 mm; solid slabs → TS 500 (not loaded) | see value | TBDY 7.11.2, 11.3.7, 8.6.2.6 | floor `Thickness` | **FLAG** + ENGINEER-ONLY; solid slab → NOT CHECKABLE |
+| TR-F7 | Floor finish slip-resistant, wheelchair-suitable; finish at least normal-flammable (high-rise: hardly-flammable); combustible insulation only under ≥ 2 cm screed | qualitative | İmar 30(8); Yangın 26(2)(3) | material names only | NOT CHECKABLE / ENGINEER-ONLY |
 
 **Engineer-only (listed, never passed)**: TS 825 U values (BEP 9(2); the
 table is in the paid TS 825 — not loaded, ask Al), R ≥ 0.80 m²K/W between
@@ -165,9 +165,9 @@ with the type's declared `Fire Rating`.
 | RF-W3 | Type-1 fire wall above the roof: ≥ 0.60 m if any roof element is Г3/Г4, ≥ 0.30 m if Г1/Г2, 0 if all НГ (still cuts the roof); at the façade: cuts combustible façade materials, projects ≥ 0.3 m beyond them, E 60 / К0 strips totalling ≥ 1.5 m (public) | see value | СП 2 5.4.10; 5.4.11 (Изм. 2) | wall top vs roof (Revit_Roof); façade junction | **FLAG** |
 | RF-W4 | Partitions of evacuation corridors/halls/vestibules, building < 28 m: I–III (R)EI(W) 30, IV 15, class К0 (≥ 28 m: 45); run **floor to slab**, also above suspended ceilings | see value | СП 2 5.2.7 (Изм. 2) | Top Constraint/Offset reaches the slab underside (audit M3); type `Fire Rating` | **FLAG**; not reaching the slab → **BLOCK** for new walls |
 | RF-W5 | Fire-hazard rooms (except В4/Д; wet rooms, sanitary rooms, storerooms ≤ 10 m² exempt) and food blocks in Ф3.3: separated by type-1 fire partitions (I–III) / type-2 (IV) | see value | СП 4 5.5.7 → 5.1.2, 5.5.2 | room uses + enclosing wall types | **FLAG** |
-| RF-W6 | Spandrel (I–III degree, façades with unrated openings): ≥ 1.2 m vertical (or projection + spandrel ≥ 1.2 m), width ≥ the opening below; one-storey buildings exempt; inside one multi-level terminal hall may be omitted (СП 478 9.3.2) | ≥ 1.2 m | СП 2 5.4.18 а), г) | (storey height − lower head) + upper sill per façade stack | **FLAG** (curtain walls → ENGINEER) |
+| RF-W6 | Spandrel (I–III degree, façades with unrated openings): ≥ 1.2 m vertical (or projection + spandrel ≥ 1.2 m), width ≥ the opening below; one-storey buildings exempt; inside one multi-level terminal hall may be omitted (СП 478 9.3.2) | ≥ 1.2 m | СП 2 5.4.18 а), г) | (storey height − lower head) + upper sill per façade stack | **FLAG** (curtain walls → ENGINEER-ONLY) |
 | RF-W7 | Piers where rated internal walls/partitions meet the façade ≥ 0.8 m; type-2 fire wall / type-1 partition ≥ 1.0 m; stair enclosure to openings ≥ 1.2 m | see value | СП 2 5.4.18 б), 5.3.6 (Изм. 2), 5.4.16 д) | distance from the wall junction to the nearest window edge | **FLAG** → Revit_DoorWindow |
-| RF-W8 | Ф3.3 in С1–С3: outer/inner walls, partitions and floors class К0, insulation НГ | К0 / НГ | СП 2 6.7.11 (Изм. 2) | material names only | NOT CHECKABLE / ENGINEER |
+| RF-W8 | Ф3.3 in С1–С3: outer/inner walls, partitions and floors class К0, insulation НГ | К0 / НГ | СП 2 6.7.11 (Изм. 2) | material names only | NOT CHECKABLE / ENGINEER-ONLY |
 | RF-W9 | Terminal: baggage-handling zones enclosed ≥ EI 45 (openings EI 30); multi-level halls separated ≥ EI 45 | see value | СП 478 9.4.6, 9.4.7 | type `Fire Rating` | **FLAG** (only if СП 478 applies — not seasonal) |
 | RF-W10 | Corridor clear width on accessible routes ≥ 1.8 m (1.5–1.2 m with 2 m passing pockets; ≥ 1.4 m by calculation); wall projections ≤ 0.1 m between 0.7 and 2.1 m | see value | СП 59 6.2.1 (Изм. 3), 6.2.6 | centreline gap − ½ both thicknesses | new: **BLOCK**; existing: **FLAG** |
 
@@ -182,7 +182,7 @@ with the type's declared `Fire Rating`.
 | RF-F5 | Wet-room floor slope 0.5–1 % (seamless/slab finishes) or 1–2 % (brick/concrete) toward drains | see value | СП 29 4.5 | sloped floors can't be built by the tools → NOT CHECKABLE unless modelled | report |
 | RF-F6 | Level changes inside: stairs, ramps or lifts; indoor ramps ≤ 1:20 with a ≥ 1.5 m landing every 0.5 m of rise (as printed — confirm), absolute max 1:12.5 with table 5.1 flight lengths | see value | СП 59 6.2.8, 6.2.9, 5.1.14 | rise/run of ramps | **BLOCK** for a new step; ramps → hand off |
 | RF-F7 | Guards: inside ≥ 0.9 m; ≥ 1.2 m where the floor drop > 1.0 m, flight gap > 0.3 m or children; external balconies, galleries, terraces, accessible roofs ≥ 1.2 m; continuous, ≥ 0.3 kN/m; porches > 0.45 m and ≥ 3 steps ≥ 0.9 m | see value | СП 118 6.10, 6.12 | free slab edges / voids with a drop (audit F2) | **FLAG** → railing: Revit_Stair |
-| RF-F8 | Screed minimums: slope screed ≥ 20 mm on slabs, ≥ 40 mm on insulation; over pipes ≥ pipe Ø + 45 mm; floor on ground: concrete underlayer in public buildings ≥ 80 mm (≥ 120 mm without levelling screed), edge insulation strip ≥ 0.8 m | see value | СП 29 8.2, 9.4, 9.5, 9.13 | floor type layers when readable | **FLAG** / ENGINEER |
+| RF-F8 | Screed minimums: slope screed ≥ 20 mm on slabs, ≥ 40 mm on insulation; over pipes ≥ pipe Ø + 45 mm; floor on ground: concrete underlayer in public buildings ≥ 80 mm (≥ 120 mm without levelling screed), edge insulation strip ≥ 0.8 m | see value | СП 29 8.2, 9.4, 9.5, 9.13 | floor type layers when readable | **FLAG** / ENGINEER-ONLY |
 | RF-F9 | Slip resistance: public rooms ≥ 0.35 dry / 0.4 wet; outdoor routes 0.6–0.75 (≥ 0.4 wet); terminal main halls: hard stone or high-strength finish | see value | СП 29 5.25; СП 59 5.1.11; СП 478 8.5 | material names only | NOT CHECKABLE |
 
 **Engineer-only (listed, never passed)**: thermal R0 (СП 50.13330.2024 —
@@ -200,8 +200,8 @@ penetration seals, К-class of systems.
 Each figure Al sends goes here with the date and his wording (full text in
 `references/al-wall-floor-drawing.md`); where a loaded family's text says
 otherwise, the text's value stands next to it and §5 records it. These are
-**office conventions for any family** (RECOMMENDATION / build-to defaults), not code
-rows — they never turn a code row to COMPLIANT.
+**office conventions for any family** (ADVISORY / build-to defaults), not code
+rows — they never turn a code row to PASS.
 
 **2026-10-30 — wall / floor / ceiling drawing conventions** (three texts; the
 graphics part — line weights, hatches, floor finish plan, RCP, leaders —
@@ -214,11 +214,11 @@ The modelling part:
 | AL-2 | **Structural vs finished level**: both are given (e.g. structural +2.690, finished +2.750 → 60 mm build-up); plans show FFL | Before building, state which one the Revit level is (FFL is the usual choice) and where the structural slab top sits (level − build-up); record it in the job notes and keep it for every storey. Audit F4 checks floors against that choice | — |
 | AL-3 | **Ceiling height is given from the finished floor** (FCL, e.g. +2.60 / 260 cm) | Clear-height rows (TR-H*, RF-H*) use FFL → FCL when ceilings exist: read `OST_Ceilings` (`revit_query_where`, Level + Height Offset From Level); without ceilings, use the slab underside and say so | RF-H1 counts a suspended ceiling (СП 118 4.26); TR clear (internal) height likewise floor → ceiling |
 | AL-4 | **Wall build-up, outside → inside**: cladding / external render → insulation → wall body (brick / aerated concrete / block) → internal plaster → paint/finish | An exterior wall type it picks has its layers in this order (exterior side out); a type whose exterior side faces in (flipped wall) is an M5 FLAG | — |
-| AL-6 | **Base slab carries the whole wall** (Al, 2026-10-30, on Project1 screenshots: "tabanda boşluklar var … taban binaya göre küçük kalıyor" — "there are gaps in the base … the base comes out smaller than the building") — the ground-floor slab runs to the exterior walls' **outer face**; no gap under a panel or between the slab and an adjoining apron/landing slab | Audit F2 at the lowest storey: an edge at the centreline or inner face, or any gap to an adjoining slab, is **NON-COMPLIANT** (not a convention note); new base slabs are drawn to the outer faces | — |
-| AL-7 | **Drywall partitions** (Al's third text; named basis IBC Chapter 25 / ASTM C840): light-steel C-stud / U-runner frame, gypsum boards 12.5 mm standard or 15 mm, fire-rated **Type X** where a rating is needed, mineral/glass wool in the cavity; partition types coded on plan with a legend (`W1` single board, `W2` double Type X acoustic …) | When it builds a partition, it picks a wall type whose name/layers state the board count, thickness and Type X if the wall is fire-rated (RF-W4/W5, TR-W4–W6); if the job has a W-code legend it uses the type with that `Type Mark` and reports the code; a new type or a `Type Mark` change needs Al's yes (type change = every instance). No stud/board model exists in the tools → stud size/spacing and fastening are **ENGINEER** | IBC ch. 25 / ASTM C840 / BS EN 13964 figures are **not loaded** (ASTM and EN are paid standards; IBC not researched yet) — only the values Al wrote are used, as conventions. Type X marks a fire-rated board; the **rating itself** still comes from the job's family (RF 123-ФЗ / СП 2, TR Yangın) |
+| AL-6 | **Base slab carries the whole wall** (Al, 2026-10-30, on Project1 screenshots: "tabanda boşluklar var … taban binaya göre küçük kalıyor" — "there are gaps in the base … the base comes out smaller than the building") — the ground-floor slab runs to the exterior walls' **outer face**; no gap under a panel or between the slab and an adjoining apron/landing slab | Audit F2 at the lowest storey: an edge at the centreline or inner face, or any gap to an adjoining slab, is **FAIL** (not a convention note); new base slabs are drawn to the outer faces | — |
+| AL-7 | **Drywall partitions** (Al's third text; named basis IBC Chapter 25 / ASTM C840): light-steel C-stud / U-runner frame, gypsum boards 12.5 mm standard or 15 mm, fire-rated **Type X** where a rating is needed, mineral/glass wool in the cavity; partition types coded on plan with a legend (`W1` single board, `W2` double Type X acoustic …) | When it builds a partition, it picks a wall type whose name/layers state the board count, thickness and Type X if the wall is fire-rated (RF-W4/W5, TR-W4–W6); if the job has a W-code legend it uses the type with that `Type Mark` and reports the code; a new type or a `Type Mark` change needs Al's yes (type change = every instance). No stud/board model exists in the tools → stud size/spacing and fastening are **ENGINEER-ONLY** | IBC ch. 25 / ASTM C840 / BS EN 13964 figures are **not loaded** (ASTM and EN are paid standards; IBC not researched yet) — only the values Al wrote are used, as conventions. Type X marks a fire-rated board; the **rating itself** still comes from the job's family (RF 123-ФЗ / СП 2, TR Yangın) |
 | AL-8 | **Floor levels: FFL and SSL** — finished floor (FFL) and structural slab top (SSL) both recorded; example build-up 10 mm porcelain → adhesive → 40 mm screed → waterproofing → 150 mm RC | Extends AL-2: per job record whether the Revit level is FFL or SSL and the build-up between them; floors it builds keep that relation | 40 mm screed meets RF СП 29 8.2 (≥ 40 mm on insulation, ≥ 20 mm on a slab) |
 | AL-9 | **Suspended ceilings** (named basis BS EN 13964): FCL from the finished floor; monolithic plasterboard (T-24, C-channel, hangers) or modular 60×60 / 60×120 T-grid | Ceilings are drawn by Revit_Guide (`revit_create_ceiling`); this agent reads them for FCL (AL-3) and hands a missing/low ceiling to Revit_Guide with the FCL the height rows allow | EN 13964 figures not loaded |
-| AL-5 | **Modular dimensions**: wall thicknesses, openings, slab thicknesses on 100 / 300 mm modules | RECOMMENDATION when proposing new wall/slab thicknesses or wall positions; never overrides the user's figures | — |
+| AL-5 | **Modular dimensions**: wall thicknesses, openings, slab thicknesses on 100 / 300 mm modules | ADVISORY when proposing new wall/slab thicknesses or wall positions; never overrides the user's figures | — |
 
 
 ## 4. How the agent uses this
@@ -235,12 +235,12 @@ The modelling part:
    ```
    Wall/floor check — basis: ТЗ — RF: СП 118.13330.2022 + СП 29.13330.2011 + 123-ФЗ
    | Rule | Measured | Status |
-   | M1 No overlapping walls | 0 | COMPLIANT |
-   | M3 Top tied to level | 21 walls Unconnected | NON-COMPLIANT → fixed (Top Constraint L2, −0.25) |
+   | M1 No overlapping walls | 0 | PASS |
+   | M3 Top tied to level | 21 walls Unconnected | FAIL → fixed (Top Constraint L2, −0.25) |
    | F2 Slab edge | L1 slab on the wall centreline | NOT CHECKABLE (no rule, project choice) |
-   | RF-H1 Clear height L1 (hall) | 3.95 (ceiling not modelled) | COMPLIANT |
+   | RF-H1 Clear height L1 (hall) | 3.95 (ceiling not modelled) | PASS |
    | RF-F1 Floor REI | degree not given | NOT CHECKABLE |
-   | Thermal / acoustic | — | ENGINEER |
+   | Thermal / acoustic | — | ENGINEER-ONLY |
    Handoff: Revit_DoorWindow — re-run G1–G6 for the 3 windows in wall 1658711.
    ```
 

@@ -65,10 +65,10 @@ the canonical names.
 
 | Status | Meaning | Agent behaviour |
 |---|---|---|
-| **COMPLIANT** | Checked in the model, meets the value | report |
-| **NON-COMPLIANT** | Checked in the model, fails | BLOCK rules: stop before building, tell the user, offer the compliant value; FLAG rules: build, report prominently |
-| **NOT CHECKABLE** | Needs data the model/tools don't have | report what is missing |
-| **ENGINEER** | Engineering/product-approval item, out of the agent's scope | list it so it isn't forgotten; never mark it passed |
+| **PASS** (UYGUN) | Checked in the model, meets the value | report |
+| **FAIL** (UYGUN DEĞİL) | Checked in the model, fails | BLOCK rules: stop before building, tell the user, offer the compliant value; FLAG rules: build, report prominently |
+| **NOT CHECKABLE** (KONTROL EDİLEMEDİ) | Needs data the model/tools don't have | report what is missing |
+| **ENGINEER-ONLY** (MÜHENDİS) | Engineering/product-approval item, out of the agent's scope | list it so it isn't forgotten; never mark it passed |
 
 ## 3. Rules
 
@@ -82,14 +82,14 @@ Slopes in degrees, because `revit_create_roof` takes degrees:
 | **R2 Slope class** | ≥ 3:12 (14.04°) = steep-slope; below = low-slope. | Same slopes. | Informational: decides whether R3-tile/shingle or R6 drainage rules apply. |
 | **R3 Covering minimum** | *Added by HR from IBC 1507, verify the edition in use:* asphalt shingles ≥ 2:12 (9.46°), double underlayment from 2:12 up to 4:12; clay/concrete tile ≥ 2.5:12 (11.77°), double underlayment up to 4:12; membranes (built-up, modified bitumen, single-ply) ≥ 1/4:12. | Roof **type name/material** (e.g. "Asphalt Shingle", "EPDM", "Tile") vs. slope. Unknown covering → NOT CHECKABLE. | Below minimum → **BLOCK**. In the underlayment band → FLAG "double underlayment required". |
 | **R4 Parapet** | Where a parapet is required at exterior/fire walls, min. 30 in (**762 mm**) above the roof surface; fire-wall continuity through the roof. | Walls under/around the roof edge: top elevation (level + top offset or unconnected height) minus roof surface elevation at that edge. Whether a parapet is *required* depends on fire separation/wall rating — ask, or report as NOT CHECKABLE. | Measured parapet < 762 mm where required → **FLAG** (walls are Revit_Guide's job; don't edit them). |
-| **R5 External fire class** | Roof covering/system tested and classified per ASTM E108 / UL 790: Class A (severe exposure, highest), B or C. Required class depends on construction type — not in the supplied text. | Roof **type** parameter "Fire Rating" (or the project's own class parameter) via `revit_get_parameter`. | Empty → **NOT CHECKABLE — class not defined**. Value present → report it; whether it is *enough* is ENGINEER unless the user states the required class. |
+| **R5 External fire class** | Roof covering/system tested and classified per ASTM E108 / UL 790: Class A (severe exposure, highest), B or C. Required class depends on construction type — not in the supplied text. | Roof **type** parameter "Fire Rating" (or the project's own class parameter) via `revit_get_parameter`. | Empty → **NOT CHECKABLE — class not defined**. Value present → report it; whether it is *enough* is ENGINEER-ONLY unless the user states the required class. |
 | **R6 Primary + overflow drainage** | Low-slope roofs: primary drains **and** secondary/emergency overflow (drains or scuppers). | Look for roof-drain elements on/near the roof (e.g. `revit_find_elements` in plumbing categories, name containing drain / süzgeç (Turkish for "drain", as it appears in element names) / scupper). | None found on a low-slope roof → **FLAG — drainage not modeled** (the agent cannot place them). |
-| **R7 Smoke/heat vents** | Certain large industrial/commercial buildings: roof vents, supplied ratio **≥ 1 % of floor area** (supplied figure; applicability and ratio depend on occupancy and code edition). | Compute roof footprint area × 1 % = indicative vent area. | Only when the user says the building is industrial/commercial/large: report the indicative area, status ENGINEER. Vents are not modeled by this agent. |
+| **R7 Smoke/heat vents** | Certain large industrial/commercial buildings: roof vents, supplied ratio **≥ 1 % of floor area** (supplied figure; applicability and ratio depend on occupancy and code edition). | Compute roof footprint area × 1 % = indicative vent area. | Only when the user says the building is industrial/commercial/large: report the indicative area, status ENGINEER-ONLY. Vents are not modeled by this agent. |
 | **R8 Vapour control & ventilation** | Warm/cold roof build-up with a vapour barrier and, for cold roofs, ventilation, to prevent condensation. | Roof type layers, if `revit_get_element_info` on the type returns them: look for a membrane / vapour-retarder layer. | No identifiable layer → **FLAG**; layers not readable → NOT CHECKABLE. |
-| **R9 Wind uplift** | Covering attachment designed for the site's basic wind speed (ASTM D7158 shingles, ASTM E1592 metal panels, etc.). | — | **ENGINEER** always. |
-| **R10 Structural loads** | Dead, snow, wind and live (maintenance/equipment) loads carried safely. | — | **ENGINEER** always. |
-| **R11 Rooftop structures** | Penthouses, equipment screens, lift overruns: height limits, fire rating, area limits. | Only if such elements are on the roof. | **ENGINEER**; list them. |
-| **R12 Green roofs** | Root barrier + drainage/filter layer over the waterproofing, extra structural load, fire per ANSI/SPRI VF-1. | Only when the user asks for a green roof (or the type name says so); check the type's layers as in R8. | Missing layers → FLAG; loads/fire → ENGINEER. |
+| **R9 Wind uplift** | Covering attachment designed for the site's basic wind speed (ASTM D7158 shingles, ASTM E1592 metal panels, etc.). | — | **ENGINEER-ONLY** always. |
+| **R10 Structural loads** | Dead, snow, wind and live (maintenance/equipment) loads carried safely. | — | **ENGINEER-ONLY** always. |
+| **R11 Rooftop structures** | Penthouses, equipment screens, lift overruns: height limits, fire rating, area limits. | Only if such elements are on the roof. | **ENGINEER-ONLY**; list them. |
+| **R12 Green roofs** | Root barrier + drainage/filter layer over the waterproofing, extra structural load, fire per ANSI/SPRI VF-1. | Only when the user asks for a green roof (or the type name says so); check the type's layers as in R8. | Missing layers → FLAG; loads/fire → ENGINEER-ONLY. |
 
 ## 4. How the agent uses this
 
@@ -103,14 +103,14 @@ Slopes in degrees, because `revit_create_roof` takes degrees:
    ```
    Code check — basis: IBC (supplied 2026-10-21)
    | Rule | Measured | Status |
-   | R1 Min. slope ≥ 1.19° | 30° | COMPLIANT |
-   | R3 Covering (Asphalt Shingle ≥ 9.46°) | 30° | COMPLIANT |
+   | R1 Min. slope ≥ 1.19° | 30° | PASS |
+   | R3 Covering (Asphalt Shingle ≥ 9.46°) | 30° | PASS |
    | R4 Parapet ≥ 762 mm | no parapet, whether required is unknown | NOT CHECKABLE |
    | R5 Fire class | "Fire Rating" empty | NOT CHECKABLE |
-   | R9–R10 Wind / loads | — | ENGINEER |
+   | R9–R10 Wind / loads | — | ENGINEER-ONLY |
    ```
 
-   Only rules that apply; ENGINEER rows grouped on one line. Never write a
+   Only rules that apply; ENGINEER-ONLY rows grouped on one line. Never write a
    summary like "the roof complies with the code".
 4. If a rule's figure turns out wrong or outdated, fix it **here** (and say
    so in the agent's activity log) — don't override it ad hoc in one job.

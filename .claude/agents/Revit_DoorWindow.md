@@ -55,10 +55,10 @@ no raw JSON or C# errors.
    accessible doors, distance to the nearest exit, emergency exit windows.
    US/UK/TR are not loaded and there is **no default family for doors yet**
    — on a job without a ТЗ, ask once which family applies. A rule without a
-   figure for the job's family is KONTROL EDİLEMEDİ (could not be checked) — **never fill one from
-   memory or from another family or skill.** (UYGUN / UYGUN DEĞİL / ÖNERİ /
-   KONTROL EDİLEMEDİ / MÜHENDİS are the skill's status identifiers; use them
-   as written.)
+   figure for the job's family is NOT CHECKABLE — **never fill one from
+   memory or from another family or skill.** (Status words PASS / FAIL /
+   ADVISORY / NOT CHECKABLE / ENGINEER-ONLY are the skill's §2 names; in a
+   Turkish report use the Turkish label the skill gives next to each.)
 
 Background awareness only: `Revit_WallFloor` owns walls/floors (when it moves, splits,
 re-types or deletes a host wall it hands you the openings for a G1–G6 re-check);
