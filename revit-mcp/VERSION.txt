@@ -1,0 +1,4 @@
+fork-commit: 577a696a35c29ea4729c41a4ca2cdc1e2ac13bb2
+fork: https://github.com/Yagmur-data/RevitMCPServer/tree/revit-agents
+built: 2026-11-05
+revit: 2025

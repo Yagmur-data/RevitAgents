@@ -2,7 +2,7 @@
 
 Claude Code agents that work in an open Revit 2025 document, and the rule
 sets (skills) they use. They talk to Revit through the [RevitMCPServer](https://github.com/KenLP/RevitMCPServer)
-add-in.
+add-in (MIT, by Le Phu); a ready-to-install build of it ships in `revit-mcp/`.
 
 ## Agents (`.claude/agents/`)
 
@@ -27,8 +27,9 @@ Skills (`.claude/skills/`): `work-discipline`, `revit-sheet-audit`,
 
 ## Installation (once)
 
-Requirements: Windows, Revit 2025, [Claude Code](https://claude.com/claude-code),
-Git, Node.js, .NET SDK 10, Python 3.
+Requirements: Windows, **Revit 2025.5 or later** (the add-in targets .NET 10),
+[Claude Code](https://claude.com/claude-code), [Git](https://git-scm.com),
+[Node.js](https://nodejs.org) LTS, Python 3.
 
 1. Clone this repo into a working folder:
 
@@ -36,34 +37,38 @@ Git, Node.js, .NET SDK 10, Python 3.
    git clone https://github.com/Yagmur-data/RevitAgents.git "Claude Projects"
    ```
 
-2. The tools the agents need (multi-run `create_stair`, the `create_roof`
-   fix, `create_railing`, `set_wall_type_layers` …) live in RevitMCPServer's
-   **fork**. Clone it inside the same folder:
+2. **Close Revit**, then double-click `revit-mcp\Install.cmd`. It
+   - copies the Revit 2025 add-in into `%APPDATA%\Autodesk\Revit\Addins\2025`,
+   - installs the MCP server (the bridge between Claude Code and Revit) into
+     `%LOCALAPPDATA%\RevitMCPServer` and runs `npm install` there,
+   - writes the `revit-2025` server into `.mcp.json` in the working folder
+     (an existing `.mcp.json` is backed up and its other servers are kept).
 
-   ```bash
-   git clone -b revit-agents https://github.com/Yagmur-data/RevitMCPServer.git "Claude Projects/RevitMCPServer"
-   ```
+   The add-in in `revit-mcp/` is built from the
+   [RevitMCPServer fork](https://github.com/Yagmur-data/RevitMCPServer/tree/revit-agents),
+   which adds the tools these agents need (multi-run `create_stair`, the
+   `create_roof` fix, `create_railing`, `set_wall_type_layers` …).
+   `revit-mcp/VERSION.txt` says which fork commit it is.
 
-3. Build the add-in and the MCP server (**with Revit closed** — the build copies
-   the add-in into `%APPDATA%\Autodesk\Revit\Addins\2025`):
+3. Open Revit 2025 (a single Revit), open a project, start Claude Code in this
+   folder, approve the `revit-2025` server when asked, and type:
+   *"Let's start with Revit_Guide"*.
 
-   ```bash
-   dotnet build "Claude Projects/RevitMCPServer/src/RevitAddin/RevitMCPAddin.csproj" -c Release -p:RevitVersion=2025
-   ```
+To remove the add-in and the server, run `revit-mcp\uninstall.ps1 -KeepClientConfig`
+in PowerShell, then delete the `revit-2025` entry from `.mcp.json`.
 
-   ```bash
-   cd "Claude Projects/RevitMCPServer/src/McpServer" && npm install && npm run build
-   ```
+### Building the add-in yourself (developers only)
 
-   `-p:RevitVersion=2025` is required; the default is 2026. For Revit 2025 the
-   fork targets .NET 10 (Revit **2025.5** and later); on an older 2025
-   update the build/load fails — update Revit first.
+```bash
+git clone -b revit-agents https://github.com/Yagmur-data/RevitMCPServer.git "Claude Projects/RevitMCPServer"
+```
 
-4. Copy `.mcp.example.json` to `.mcp.json` and replace the path in it
-   with your own `RevitMCPServer\src\McpServer\dist\index.js` path.
+```bash
+dotnet build "Claude Projects/RevitMCPServer/src/RevitAddin/RevitMCPAddin.csproj" -c Release -p:RevitVersion=2025
+```
 
-5. Open Revit 2025 (a single Revit), open a project, start Claude Code in this
-   folder and type: *"Let's start with Revit_Guide"*.
+`-p:RevitVersion=2025` is required (the default is 2026). The build copies the
+add-in into Revit's add-in folder, so close Revit first. Needs the .NET 10 SDK.
 
 ## Updating
 
@@ -71,14 +76,10 @@ Git, Node.js, .NET SDK 10, Python 3.
 git -C "Claude Projects" pull
 ```
 
-```bash
-git -C "Claude Projects/RevitMCPServer" pull
-```
-
-If RevitMCPServer has changed, run the build from step 3 again (with Revit
-closed). If an agent's `lessons.md` has changed on your own machine, `pull`
-may ask for a merge; if you don't want to keep your change, first revert it
-with `git -C "Claude Projects" checkout -- .claude`.
+If the pull changed anything in `revit-mcp/` (a new `VERSION.txt`), close
+Revit and run `revit-mcp\Install.cmd` again. If an agent's `lessons.md` has
+changed on your own machine, `pull` may ask for a merge; if you don't want to
+keep your change, first revert it with `git -C "Claude Projects" checkout -- .claude`.
 
 Note: the agent files (agent definitions, skills, lessons, script indexes) are
 kept in English; the agents still answer in the user's language.

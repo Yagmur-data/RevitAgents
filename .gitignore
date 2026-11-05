@@ -4,8 +4,8 @@
 /*
 !/.gitignore
 !/README.md
-!/.mcp.example.json
 !/docs/
+!/revit-mcp/
 
 !/.claude/
 /.claude/*
@@ -26,6 +26,10 @@
 
 # Each user's own job history stays local (curated lessons.md is shared)
 activity_log.md
+
+# Built locally by the installer, never committed
+/revit-mcp/**/node_modules/
+*.pdb
 
 __pycache__/
 *.pyc
