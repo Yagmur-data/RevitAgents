@@ -4,27 +4,6 @@ Claude Code agents that work in an open Revit 2025 document, and the rule
 sets (skills) they use. They talk to Revit through the [RevitMCPServer](https://github.com/KenLP/RevitMCPServer)
 add-in (MIT, by Le Phu); a ready-to-install build of it ships in `revit-mcp/`.
 
-## Agents (`.claude/agents/`)
-
-| Agent | What it does |
-|---|---|
-| **Revit_Guide** | Front door for a first-time user; turns plain sentences such as "draw a 5-metre wall" into `revit_*` calls and hands the work to the specialist agents below. |
-| **Revit_WallFloor** | Draws/fixes/checks walls and floors (overlapping walls, open joins, wall tops not tied to a level…). |
-| **Revit_DoorWindow** | Places, moves and checks doors/windows (inside the wall or not, overlaps, sill, swing direction). |
-| **Revit_Stair** | Calculates and builds stairs (riser/tread, landing, railing) and checks them against the code. |
-| **Revit_Roof** | Builds real FootPrintRoof roofs (hip/gable/shed/flat, eaves) and checks them. |
-| **Revit_Drafter** | Sets up sheets, places views, exports them to PDF, has Revit_Sheet review them, and fixes them until the score is > 90. |
-| **Revit_Sheet** | Reviews sheet PDFs for graphics (ISO 128 / ГОСТ-СПДС …) and writes a report. Never touches Revit. |
-| **Revit_Dynamo** | Writes/fixes Dynamo 3.3 `.dyn` graphs and Python nodes; the user runs them, the agent reads the result. |
-
-Each agent's folder has `scripts/` (calculation scripts) and `Memory/lessons.md`
-(learned rules). `Memory/activity_log.md` is kept on each user's own
-machine and does not go into the repo.
-
-Skills (`.claude/skills/`): `work-discipline`, `revit-sheet-audit`,
-`dynamo-revit-authoring`, `wall-floor-code-check`, `door-window-code-check`,
-`stair-code-check`, `roof-code-check`.
-
 ## Quick setup: let Claude Code do it
 
 Install [Git](https://git-scm.com), [Node.js](https://nodejs.org) LTS and
@@ -52,7 +31,28 @@ the agents and the Revit connection load only when a session starts there.
 Approve the `revit-2025` server when asked, open a project in Revit 2025, and
 type *"Let's start with Revit_Guide"*.
 
-## Installation (once)
+## Agents (`.claude/agents/`)
+
+| Agent | What it does |
+|---|---|
+| **Revit_Guide** | Front door for a first-time user; turns plain sentences such as "draw a 5-metre wall" into `revit_*` calls and hands the work to the specialist agents below. |
+| **Revit_WallFloor** | Draws/fixes/checks walls and floors (overlapping walls, open joins, wall tops not tied to a level…). |
+| **Revit_DoorWindow** | Places, moves and checks doors/windows (inside the wall or not, overlaps, sill, swing direction). |
+| **Revit_Stair** | Calculates and builds stairs (riser/tread, landing, railing) and checks them against the code. |
+| **Revit_Roof** | Builds real FootPrintRoof roofs (hip/gable/shed/flat, eaves) and checks them. |
+| **Revit_Drafter** | Sets up sheets, places views, exports them to PDF, has Revit_Sheet review them, and fixes them until the score is > 90. |
+| **Revit_Sheet** | Reviews sheet PDFs for graphics (ISO 128 / ГОСТ-СПДС …) and writes a report. Never touches Revit. |
+| **Revit_Dynamo** | Writes/fixes Dynamo 3.3 `.dyn` graphs and Python nodes; the user runs them, the agent reads the result. |
+
+Each agent's folder has `scripts/` (calculation scripts) and `Memory/lessons.md`
+(learned rules). `Memory/activity_log.md` is kept on each user's own
+machine and does not go into the repo.
+
+Skills (`.claude/skills/`): `work-discipline`, `revit-sheet-audit`,
+`dynamo-revit-authoring`, `wall-floor-code-check`, `door-window-code-check`,
+`stair-code-check`, `roof-code-check`.
+
+## Manual installation
 
 Requirements: Windows, **Revit 2025.5 or later** (the add-in targets .NET 10),
 [Claude Code](https://claude.com/claude-code), [Git](https://git-scm.com),
