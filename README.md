@@ -44,11 +44,11 @@ Requirements: Windows, **Revit 2025.5 or later** (the add-in targets .NET 10),
    - writes the `revit-2025` server into `.mcp.json` in the working folder
      (an existing `.mcp.json` is backed up and its other servers are kept).
 
-   The add-in in `revit-mcp/` is built from the
-   [RevitMCPServer fork](https://github.com/Yagmur-data/RevitMCPServer/tree/revit-agents),
-   which adds the tools these agents need (multi-run `create_stair`, the
-   `create_roof` fix, `create_railing`, `set_wall_type_layers` …).
-   `revit-mcp/VERSION.txt` says which fork commit it is.
+   The add-in in `revit-mcp/` is built from the source in `revit-mcp/source/`:
+   RevitMCPServer plus the tools these agents need (multi-run `create_stair`,
+   the `create_roof` fix, `create_railing`, `set_wall_type_layers` …).
+   `revit-mcp/VERSION.txt` says which source commit it was built from.
+   Everything is in this one repo — nothing else to download.
 
 3. Open Revit 2025 (a single Revit), open a project, start Claude Code in this
    folder, approve the `revit-2025` server when asked, and type:
@@ -59,12 +59,10 @@ in PowerShell, then delete the `revit-2025` entry from `.mcp.json`.
 
 ### Building the add-in yourself (developers only)
 
-```bash
-git clone -b revit-agents https://github.com/Yagmur-data/RevitMCPServer.git "Claude Projects/RevitMCPServer"
-```
+The source is in `revit-mcp/source/` of this repo:
 
 ```bash
-dotnet build "Claude Projects/RevitMCPServer/src/RevitAddin/RevitMCPAddin.csproj" -c Release -p:RevitVersion=2025
+dotnet build "Claude Projects/revit-mcp/source/src/RevitAddin/RevitMCPAddin.csproj" -c Release -p:RevitVersion=2025
 ```
 
 `-p:RevitVersion=2025` is required (the default is 2026). The build copies the

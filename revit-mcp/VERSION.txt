@@ -1,4 +1,4 @@
-fork-commit: 577a696a35c29ea4729c41a4ca2cdc1e2ac13bb2
-fork: https://github.com/Yagmur-data/RevitMCPServer/tree/revit-agents
+source-commit: 577a696a35c29ea4729c41a4ca2cdc1e2ac13bb2
+source: revit-mcp/source (RevitMCPServer by Le Phu, MIT, plus this repo's changes)
 built: 2026-11-05
 revit: 2025

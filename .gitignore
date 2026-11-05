@@ -29,6 +29,9 @@ activity_log.md
 
 # Built locally by the installer, never committed
 /revit-mcp/**/node_modules/
+/revit-mcp/source/**/bin/
+/revit-mcp/source/**/obj/
+/revit-mcp/source/**/dist/
 *.pdb
 
 __pycache__/
