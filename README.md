@@ -25,6 +25,33 @@ Skills (`.claude/skills/`): `work-discipline`, `revit-sheet-audit`,
 `dynamo-revit-authoring`, `wall-floor-code-check`, `door-window-code-check`,
 `stair-code-check`, `roof-code-check`.
 
+## Quick setup: let Claude Code do it
+
+Install [Git](https://git-scm.com), [Node.js](https://nodejs.org) LTS and
+[Claude Code](https://claude.com/claude-code), close Revit, open Claude Code in
+an **empty folder** and paste:
+
+```text
+Set up https://github.com/Yagmur-data/RevitAgents in this folder: clone it here
+(into this folder itself, not a subfolder), then follow its README
+installation steps. Revit is closed. Run revit-mcp\Install.cmd's script for me,
+show me anything that fails, and tell me what to do next.
+```
+
+Türkçe:
+
+```text
+https://github.com/Yagmur-data/RevitAgents reposunu bu klasöre kur: buraya
+klonla (alt klasöre değil, bu klasörün kendisine), sonra README'deki kurulum
+adımlarını uygula. Revit kapalı. revit-mcp\Install.cmd'nin script'ini benim
+için çalıştır, hata olursa göster ve sonra ne yapmam gerektiğini söyle.
+```
+
+When it is done, **close Claude Code and open it again in the same folder** —
+the agents and the Revit connection load only when a session starts there.
+Approve the `revit-2025` server when asked, open a project in Revit 2025, and
+type *"Let's start with Revit_Guide"*.
+
 ## Installation (once)
 
 Requirements: Windows, **Revit 2025.5 or later** (the add-in targets .NET 10),
